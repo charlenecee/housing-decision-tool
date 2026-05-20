@@ -15,329 +15,139 @@
       --text:         #0f172a;
       --muted:        #64748b;
       --conservative: #ef4444;
-      --balanced:     #f59e0b;
+      --balanced:     #d97706;
       --best:         #10b981;
       --blue:         #3b82f6;
       --radius:       14px;
       --shadow:       0 1px 3px rgba(0,0,0,0.07), 0 4px 16px rgba(0,0,0,0.05);
     }
 
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      line-height: 1.5;
-      min-height: 100vh;
-    }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.5; min-height: 100vh; }
 
     /* ── Header ── */
-    .header {
-      background: linear-gradient(135deg, #0f172a 0%, #1a3a5c 60%, #0f2744 100%);
-      color: #fff;
-      padding: 48px 24px 40px;
-      text-align: center;
-    }
-    .route-pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      background: rgba(255,255,255,0.1);
-      border: 1px solid rgba(255,255,255,0.18);
-      border-radius: 100px;
-      padding: 7px 18px;
-      font-size: 13px;
-      font-weight: 500;
-      margin-bottom: 18px;
-      letter-spacing: 0.01em;
-    }
+    .header { background: linear-gradient(135deg, #0f172a 0%, #1a3a5c 60%, #0f2744 100%); color: #fff; padding: 48px 24px 40px; text-align: center; }
+    .route-pill { display: inline-flex; align-items: center; gap: 10px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.18); border-radius: 100px; padding: 7px 18px; font-size: 13px; font-weight: 500; margin-bottom: 18px; }
     .route-pill .arrow { opacity: 0.5; }
-    .header h1 {
-      font-size: 30px;
-      font-weight: 700;
-      letter-spacing: -0.6px;
-      margin-bottom: 8px;
-    }
+    .header h1 { font-size: 30px; font-weight: 700; letter-spacing: -0.6px; margin-bottom: 8px; }
     .header p { font-size: 15px; opacity: 0.6; }
 
     /* ── Layout ── */
     .main { max-width: 1120px; margin: 0 auto; padding: 36px 24px 48px; }
-
-    .section-label {
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 0.09em;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin-bottom: 14px;
-      margin-top: 36px;
-    }
+    .section-label { font-size: 11px; font-weight: 700; letter-spacing: 0.09em; text-transform: uppercase; color: var(--muted); margin-bottom: 14px; margin-top: 36px; }
     .section-label:first-child { margin-top: 0; }
-
-    .card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-    }
+    .card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); }
 
     /* ── Inputs ── */
-    .inputs-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
-    }
-
+    .inputs-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .col-span-2 { grid-column: 1 / -1; }
     .input-card { padding: 22px 24px; }
-
-    .input-card h3 {
-      font-size: 12px;
-      font-weight: 700;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin-bottom: 18px;
-      padding-bottom: 12px;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .field {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      margin-bottom: 11px;
-    }
+    .input-card h3 { font-size: 12px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); margin-bottom: 18px; padding-bottom: 12px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+    .field { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 11px; }
     .field:last-child { margin-bottom: 0; }
-
-    label {
-      font-size: 13px;
-      color: var(--text);
-      flex: 1;
-      white-space: nowrap;
-    }
-
-    .input-wrap {
-      display: flex;
-      align-items: center;
-      background: #f8fafc;
-      border: 1.5px solid var(--border);
-      border-radius: 8px;
-      overflow: hidden;
-      width: 138px;
-      flex-shrink: 0;
-      transition: border-color 0.15s, box-shadow 0.15s;
-    }
-    .input-wrap:focus-within {
-      border-color: var(--blue);
-      box-shadow: 0 0 0 3px rgba(59,130,246,0.13);
-      background: #fff;
-    }
-    .affix {
-      padding: 0 9px;
-      font-size: 13px;
-      font-weight: 500;
-      color: var(--muted);
-      background: #f1f5f9;
-      height: 36px;
-      display: flex;
-      align-items: center;
-      user-select: none;
-    }
+    label { font-size: 13px; color: var(--text); flex: 1; white-space: nowrap; }
+    .input-wrap { display: flex; align-items: center; background: #f8fafc; border: 1.5px solid var(--border); border-radius: 8px; overflow: hidden; width: 138px; flex-shrink: 0; transition: border-color 0.15s, box-shadow 0.15s; }
+    .input-wrap:focus-within { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(59,130,246,0.13); background: #fff; }
+    .affix { padding: 0 9px; font-size: 13px; font-weight: 500; color: var(--muted); background: #f1f5f9; height: 36px; display: flex; align-items: center; user-select: none; }
     .affix.right { border-left: 1.5px solid var(--border); }
     .affix.left  { border-right: 1.5px solid var(--border); }
+    .input-wrap input { width: 100%; border: none; background: transparent; padding: 0 8px; height: 36px; font-size: 13px; font-weight: 600; color: var(--text); outline: none; -moz-appearance: textfield; min-width: 0; }
+    .input-wrap input::-webkit-outer-spin-button, .input-wrap input::-webkit-inner-spin-button { -webkit-appearance: none; }
 
-    .input-wrap input {
-      width: 100%;
-      border: none;
-      background: transparent;
-      padding: 0 8px;
-      height: 36px;
-      font-size: 13px;
-      font-weight: 600;
-      color: var(--text);
-      outline: none;
-      -moz-appearance: textfield;
-      min-width: 0;
-    }
-    .input-wrap input::-webkit-outer-spin-button,
-    .input-wrap input::-webkit-inner-spin-button { -webkit-appearance: none; }
+    /* ── Apartment list ── */
+    .apt-list { display: flex; flex-direction: column; gap: 8px; }
+    .apt-row { display: flex; align-items: center; gap: 10px; }
+    .apt-color { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; }
+    .apt-name-wrap { flex: 1; display: flex; align-items: center; background: #f8fafc; border: 1.5px solid var(--border); border-radius: 8px; overflow: hidden; min-width: 0; transition: border-color 0.15s, box-shadow 0.15s; }
+    .apt-name-wrap:focus-within { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(59,130,246,0.13); background: #fff; }
+    .apt-name-wrap input { width: 100%; border: none; background: transparent; padding: 0 12px; height: 36px; font-size: 13px; font-weight: 500; color: var(--text); outline: none; }
+    .apt-rent-wrap { width: 140px; flex-shrink: 0; }
+    .icon-btn { width: 34px; height: 34px; border-radius: 8px; border: 1.5px solid var(--border); background: #fff; color: var(--muted); font-size: 18px; line-height: 1; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: all 0.15s; }
+    .icon-btn:hover { background: #fef2f2; color: var(--conservative); border-color: #fca5a5; }
+    .add-apt-btn { margin-top: 10px; display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; padding: 9px; background: transparent; border: 1.5px dashed var(--border); border-radius: 8px; font-size: 13px; font-weight: 600; color: var(--muted); cursor: pointer; transition: all 0.15s; }
+    .add-apt-btn:hover { background: #eff6ff; color: var(--blue); border-color: var(--blue); }
 
-    /* ── Scenario Cards ── */
-    .scenarios-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 16px;
-    }
+    /* ── Comparison table ── */
+    .table-card { overflow: hidden; }
+    .table-scroll { overflow-x: auto; }
 
-    .scenario-card {
-      padding: 26px 24px 22px;
-      position: relative;
-      overflow: hidden;
-    }
-    .scenario-card::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 4px;
-      border-radius: var(--radius) var(--radius) 0 0;
-    }
-    .conservative::before { background: var(--conservative); }
-    .balanced::before     { background: var(--balanced); }
-    .best::before         { background: var(--best); }
+    table { width: 100%; border-collapse: collapse; }
+    thead tr.header-row th { padding: 16px 20px 10px; font-size: 12px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; border-bottom: 1px solid var(--border); }
+    thead tr.header-row th:first-child { text-align: left; color: var(--muted); }
+    thead tr.header-row th:not(:first-child) { text-align: right; }
+    th.col-c { color: var(--conservative); }
+    th.col-b { color: var(--balanced); }
+    th.col-x { color: var(--best); }
+    thead tr.subhead-row td { padding: 6px 20px 12px; font-size: 11px; color: var(--muted); border-bottom: 2px solid var(--border); }
+    thead tr.subhead-row td:not(:first-child) { text-align: right; }
 
-    .sc-tag {
-      font-size: 10.5px;
-      font-weight: 700;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      margin-bottom: 2px;
-    }
-    .conservative .sc-tag { color: var(--conservative); }
-    .balanced .sc-tag     { color: var(--balanced); }
-    .best .sc-tag         { color: var(--best); }
+    tbody tr { border-bottom: 1px solid var(--border); transition: background 0.1s; }
+    tbody tr:last-child { border-bottom: none; }
+    tbody tr:hover { background: #f8fafc; }
 
-    .sc-subtitle {
-      font-size: 13px;
-      color: var(--muted);
-      margin-bottom: 16px;
-    }
+    td.name-td { padding: 18px 20px; }
+    .apt-label { font-weight: 700; font-size: 14px; display: flex; align-items: center; gap: 8px; }
+    .apt-label .dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+    .apt-rent-label { font-size: 12px; color: var(--muted); margin-top: 2px; padding-left: 18px; }
 
-    .badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      font-size: 11px;
-      font-weight: 600;
-      padding: 3px 10px;
-      border-radius: 100px;
-      margin-bottom: 18px;
-    }
-    .badge-pm   { background: #fef3c7; color: #92400e; }
-    .badge-self { background: #e0f2fe; color: #0369a1; }
+    td.val-td { padding: 18px 20px; text-align: right; vertical-align: middle; }
+    .net-val { font-size: 22px; font-weight: 800; letter-spacing: -0.5px; display: block; }
+    .net-val.red   { color: var(--conservative); }
+    .net-val.amber { color: var(--balanced); }
+    .net-val.green { color: var(--best); }
+    .best-badge { display: inline-flex; align-items: center; gap: 3px; font-size: 10px; font-weight: 700; background: #dcfce7; color: #166534; border-radius: 5px; padding: 2px 7px; margin-top: 4px; }
 
-    .net-amount {
-      font-size: 40px;
-      font-weight: 800;
-      letter-spacing: -1.5px;
-      line-height: 1;
-      margin-bottom: 5px;
-    }
-    .net-amount.negative { color: var(--conservative); }
-    .net-amount.positive { color: var(--best); }
-
-    .net-sublabel {
-      font-size: 11px;
-      color: var(--muted);
-      margin-bottom: 20px;
-      font-weight: 500;
-    }
-
-    .breakdown { border-top: 1px solid var(--border); padding-top: 16px; }
-    .brow {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-size: 12px;
-      margin-bottom: 7px;
-      gap: 8px;
-    }
-    .brow .label-group { display: flex; align-items: center; gap: 7px; }
-    .dot {
-      width: 8px; height: 8px;
-      border-radius: 50%;
-      flex-shrink: 0;
-    }
-    .brow.income-row { color: #059669; font-weight: 600; font-size: 12.5px; }
-    .brow.muted-row  { color: var(--muted); }
-    .brow.total-row  {
-      font-size: 13px;
-      font-weight: 700;
-      color: var(--text);
-      margin-top: 8px;
-      padding-top: 8px;
-      border-top: 1px dashed var(--border);
-      margin-bottom: 0;
-    }
+    .table-empty { padding: 48px; text-align: center; color: var(--muted); }
 
     /* ── Chart ── */
     .chart-card { padding: 28px 28px 24px; }
-    .chart-header { margin-bottom: 6px; }
-    .chart-header h3 { font-size: 16px; font-weight: 700; }
+    .chart-card h3 { font-size: 16px; font-weight: 700; margin-bottom: 4px; }
     .chart-sub { font-size: 13px; color: var(--muted); margin-bottom: 26px; }
-    .chart-wrap { position: relative; height: 310px; }
+    .chart-wrap { position: relative; height: 320px; }
 
-    /* ── Footer Note ── */
-    .footer-note {
-      display: flex;
-      gap: 12px;
-      background: #fffbeb;
-      border: 1px solid #fde68a;
-      border-radius: var(--radius);
-      padding: 16px 20px;
-      font-size: 13px;
-      color: #78350f;
-      line-height: 1.6;
-      margin-top: 16px;
-    }
+    /* ── Footer ── */
+    .footer-note { display: flex; gap: 12px; background: #fffbeb; border: 1px solid #fde68a; border-radius: var(--radius); padding: 16px 20px; font-size: 13px; color: #78350f; line-height: 1.6; margin-top: 16px; }
     .footer-note .icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
 
-    /* ── Responsive ── */
     @media (max-width: 820px) {
-      .inputs-grid   { grid-template-columns: 1fr; }
-      .scenarios-grid { grid-template-columns: 1fr; }
+      .inputs-grid { grid-template-columns: 1fr; }
       .header h1 { font-size: 22px; }
-      .net-amount { font-size: 30px; }
+      .net-val { font-size: 18px; }
     }
   </style>
 </head>
 <body>
 
-<!-- ── Header ──────────────────────────────────────────────────────────────── -->
 <header class="header">
   <div class="route-pill">
-    🏠 San Lorenzo 3BR/2BA
-    <span class="arrow">→</span>
-    🏙 Redwood City 1BR/1BA
+    🏠 San Lorenzo 3BR/2BA <span class="arrow">→</span> Bay Area Rental
   </div>
   <h1>Housing Decision Dashboard</h1>
-  <p>Rent out your home · Downsize to rent · See your monthly picture</p>
+  <p>Rent out your home · Compare apartments · See your monthly picture</p>
 </header>
 
 <main class="main">
 
-  <!-- ── Inputs ─────────────────────────────────────────────────────────── -->
-  <p class="section-label">Adjust Your Numbers</p>
+  <!-- ── Inputs ── -->
+  <p class="section-label">Your Numbers</p>
   <div class="inputs-grid">
 
     <div class="card input-card">
       <h3>🏡 San Lorenzo — Carrying Costs</h3>
       <div class="field">
         <label>Mortgage (P&amp;I)</label>
-        <div class="input-wrap">
-          <span class="affix left">$</span>
-          <input type="number" id="mortgage" value="1500" min="0" step="50" oninput="recalc()">
-        </div>
+        <div class="input-wrap"><span class="affix left">$</span><input type="number" id="mortgage" value="1500" min="0" step="50" oninput="recalc()"></div>
       </div>
       <div class="field">
         <label>Property tax / mo</label>
-        <div class="input-wrap">
-          <span class="affix left">$</span>
-          <input type="number" id="propTax" value="500" min="0" step="10" oninput="recalc()">
-        </div>
+        <div class="input-wrap"><span class="affix left">$</span><input type="number" id="propTax" value="500" min="0" step="10" oninput="recalc()"></div>
       </div>
       <div class="field">
         <label>Insurance / mo</label>
-        <div class="input-wrap">
-          <span class="affix left">$</span>
-          <input type="number" id="insurance" value="143" min="0" step="5" oninput="recalc()">
-        </div>
+        <div class="input-wrap"><span class="affix left">$</span><input type="number" id="insurance" value="143" min="0" step="5" oninput="recalc()"></div>
       </div>
       <div class="field">
         <label>Home value</label>
-        <div class="input-wrap">
-          <span class="affix left">$</span>
-          <input type="number" id="homeValue" value="600000" min="0" step="10000" oninput="recalc()">
-        </div>
+        <div class="input-wrap"><span class="affix left">$</span><input type="number" id="homeValue" value="600000" min="0" step="10000" oninput="recalc()"></div>
       </div>
     </div>
 
@@ -345,217 +155,106 @@
       <h3>💰 San Lorenzo — Rental Income Range</h3>
       <div class="field">
         <label>Low estimate <span style="color:var(--muted);font-size:11px">(conservative)</span></label>
-        <div class="input-wrap">
-          <span class="affix left">$</span>
-          <input type="number" id="rentLow" value="3200" min="0" step="50" oninput="recalc()">
-        </div>
+        <div class="input-wrap"><span class="affix left">$</span><input type="number" id="rentLow" value="3200" min="0" step="50" oninput="recalc()"></div>
       </div>
       <div class="field">
         <label>High estimate <span style="color:var(--muted);font-size:11px">(best case)</span></label>
-        <div class="input-wrap">
-          <span class="affix left">$</span>
-          <input type="number" id="rentHigh" value="3400" min="0" step="50" oninput="recalc()">
-        </div>
+        <div class="input-wrap"><span class="affix left">$</span><input type="number" id="rentHigh" value="3400" min="0" step="50" oninput="recalc()"></div>
       </div>
     </div>
 
-    <div class="card input-card">
-      <h3>🏙 Redwood City — Target Rent</h3>
-      <div class="field">
-        <label>Low end <span style="color:var(--muted);font-size:11px">(best case)</span></label>
-        <div class="input-wrap">
-          <span class="affix left">$</span>
-          <input type="number" id="newRentLow" value="2200" min="0" step="50" oninput="recalc()">
-        </div>
-      </div>
-      <div class="field">
-        <label>High end <span style="color:var(--muted);font-size:11px">(conservative)</span></label>
-        <div class="input-wrap">
-          <span class="affix left">$</span>
-          <input type="number" id="newRentHigh" value="2800" min="0" step="50" oninput="recalc()">
-        </div>
-      </div>
+    <!-- Apartments — full width -->
+    <div class="card input-card col-span-2">
+      <h3>
+        🏙 Apartments to Compare
+        <span style="font-size:11px;font-weight:500;text-transform:none;letter-spacing:0;color:var(--muted)">Add any apartment you're considering</span>
+      </h3>
+      <div class="apt-list" id="apt-list"></div>
+      <button class="add-apt-btn" onclick="addApt()">＋ Add apartment</button>
     </div>
 
     <div class="card input-card">
       <h3>⚙️ Landlord Assumptions</h3>
       <div class="field">
         <label>Vacancy buffer</label>
-        <div class="input-wrap">
-          <input type="number" id="vacancyMo" value="1" min="0" max="12" step="0.5" oninput="recalc()">
-          <span class="affix right">mo/yr</span>
-        </div>
+        <div class="input-wrap"><input type="number" id="vacancyMo" value="1" min="0" max="12" step="0.5" oninput="recalc()"><span class="affix right">mo/yr</span></div>
       </div>
       <div class="field">
         <label>Maintenance reserve</label>
-        <div class="input-wrap">
-          <input type="number" id="maintPct" value="1" min="0" max="5" step="0.1" oninput="recalc()">
-          <span class="affix right">%/yr</span>
-        </div>
+        <div class="input-wrap"><input type="number" id="maintPct" value="1" min="0" max="5" step="0.1" oninput="recalc()"><span class="affix right">%/yr</span></div>
       </div>
       <div class="field">
-        <label>Prop. mgmt fee <span style="color:var(--muted);font-size:11px">(conservative only)</span></label>
-        <div class="input-wrap">
-          <input type="number" id="pmRate" value="9" min="0" max="20" step="0.5" oninput="recalc()">
-          <span class="affix right">%</span>
-        </div>
+        <label>Prop. mgmt fee <span style="color:var(--muted);font-size:11px">(conservative)</span></label>
+        <div class="input-wrap"><input type="number" id="pmRate" value="9" min="0" max="20" step="0.5" oninput="recalc()"><span class="affix right">%</span></div>
       </div>
     </div>
 
   </div>
 
-  <!-- ── Scenario Cards ─────────────────────────────────────────────────── -->
-  <p class="section-label">Monthly Cash Flow by Scenario</p>
-  <div class="scenarios-grid">
-
-    <!-- Conservative -->
-    <div class="card scenario-card conservative">
-      <div class="sc-tag">Conservative</div>
-      <div class="sc-subtitle">Low rent · High new rent</div>
-      <span class="badge badge-pm">📋 Property manager hired</span>
-      <div class="net-amount negative" id="net-c">—</div>
-      <div class="net-sublabel">net / month</div>
-      <div class="breakdown">
-        <div class="brow income-row">
-          <span class="label-group">↑ Rental income</span>
-          <span id="c-inc">—</span>
-        </div>
-        <div class="brow muted-row">
-          <span class="label-group"><span class="dot" style="background:#3b82f6"></span>Carrying costs</span>
-          <span id="c-carry">—</span>
-        </div>
-        <div class="brow muted-row">
-          <span class="label-group"><span class="dot" style="background:#8b5cf6"></span>Operating costs</span>
-          <span id="c-ops">—</span>
-        </div>
-        <div class="brow muted-row">
-          <span class="label-group"><span class="dot" style="background:#f97316"></span>Your new rent</span>
-          <span id="c-nr">—</span>
-        </div>
-        <div class="brow total-row">
-          <span>Total out</span>
-          <span id="c-tot">—</span>
-        </div>
-      </div>
+  <!-- ── Comparison Table ── -->
+  <p class="section-label">Monthly Cash Flow Comparison</p>
+  <div class="card table-card">
+    <div class="table-scroll">
+      <table>
+        <thead>
+          <tr class="header-row">
+            <th style="width:35%">Apartment</th>
+            <th class="col-c">Conservative</th>
+            <th class="col-b">Balanced</th>
+            <th class="col-x">Best Case</th>
+          </tr>
+          <tr class="subhead-row" id="table-subhead">
+            <td></td>
+            <td id="sub-c">—</td>
+            <td id="sub-b">—</td>
+            <td id="sub-x">—</td>
+          </tr>
+        </thead>
+        <tbody id="table-body">
+          <tr><td colspan="4" class="table-empty">Add an apartment above to see comparison</td></tr>
+        </tbody>
+      </table>
     </div>
-
-    <!-- Balanced -->
-    <div class="card scenario-card balanced">
-      <div class="sc-tag">Balanced</div>
-      <div class="sc-subtitle">Mid rent · Mid new rent</div>
-      <span class="badge badge-self">🔧 Self-managing</span>
-      <div class="net-amount negative" id="net-b">—</div>
-      <div class="net-sublabel">net / month</div>
-      <div class="breakdown">
-        <div class="brow income-row">
-          <span class="label-group">↑ Rental income</span>
-          <span id="b-inc">—</span>
-        </div>
-        <div class="brow muted-row">
-          <span class="label-group"><span class="dot" style="background:#3b82f6"></span>Carrying costs</span>
-          <span id="b-carry">—</span>
-        </div>
-        <div class="brow muted-row">
-          <span class="label-group"><span class="dot" style="background:#8b5cf6"></span>Operating costs</span>
-          <span id="b-ops">—</span>
-        </div>
-        <div class="brow muted-row">
-          <span class="label-group"><span class="dot" style="background:#f97316"></span>Your new rent</span>
-          <span id="b-nr">—</span>
-        </div>
-        <div class="brow total-row">
-          <span>Total out</span>
-          <span id="b-tot">—</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- Best Case -->
-    <div class="card scenario-card best">
-      <div class="sc-tag">Best Case</div>
-      <div class="sc-subtitle">High rent · Low new rent</div>
-      <span class="badge" style="background:#dcfce7;color:#14532d;">🔧 Self-managing</span>
-      <div class="net-amount negative" id="net-x">—</div>
-      <div class="net-sublabel">net / month</div>
-      <div class="breakdown">
-        <div class="brow income-row">
-          <span class="label-group">↑ Rental income</span>
-          <span id="x-inc">—</span>
-        </div>
-        <div class="brow muted-row">
-          <span class="label-group"><span class="dot" style="background:#3b82f6"></span>Carrying costs</span>
-          <span id="x-carry">—</span>
-        </div>
-        <div class="brow muted-row">
-          <span class="label-group"><span class="dot" style="background:#8b5cf6"></span>Operating costs</span>
-          <span id="x-ops">—</span>
-        </div>
-        <div class="brow muted-row">
-          <span class="label-group"><span class="dot" style="background:#f97316"></span>Your new rent</span>
-          <span id="x-nr">—</span>
-        </div>
-        <div class="brow total-row">
-          <span>Total out</span>
-          <span id="x-tot">—</span>
-        </div>
-      </div>
-    </div>
-
   </div>
 
-  <!-- ── Chart ──────────────────────────────────────────────────────────── -->
-  <p class="section-label">Visual Breakdown</p>
+  <!-- ── Chart ── -->
+  <p class="section-label">Visual Comparison</p>
   <div class="card chart-card">
-    <div class="chart-header">
-      <h3>Monthly Cost Breakdown vs. Rental Income</h3>
-    </div>
-    <p class="chart-sub">Stacked bars show where money goes · Green line marks rental income · Gap between line and bar top = monthly shortfall</p>
-    <div class="chart-wrap">
-      <canvas id="chart"></canvas>
-    </div>
+    <h3>Monthly Cash Flow by Apartment &amp; Scenario</h3>
+    <p class="chart-sub">Bars below zero = monthly shortfall · Closer to zero is better · Colors match the three scenarios</p>
+    <div class="chart-wrap"><canvas id="chart"></canvas></div>
   </div>
 
-  <!-- ── Footer Note ────────────────────────────────────────────────────── -->
   <div class="footer-note">
     <span class="icon">💡</span>
-    <span>These figures show <strong>cash flow only</strong>. They don't capture equity appreciation in San Lorenzo, principal paydown from tenant rent, or rental income tax deductions — all of which improve the true financial picture over time. A shortfall here isn't necessarily a dealbreaker.</span>
+    <span>These figures show <strong>cash flow only</strong>. They don't capture equity appreciation in San Lorenzo, principal paydown from tenant rent, or rental income tax deductions — all of which improve the true financial picture over time.</span>
   </div>
 
 </main>
 
 <script>
-  // ── Chart init ─────────────────────────────────────────────────────────────
+  // ── Apartment colors ────────────────────────────────────────────────────────
+  const APT_COLORS = [
+    '#3b82f6','#8b5cf6','#ec4899','#f97316','#14b8a6','#84cc16','#06b6d4','#a855f7',
+  ];
+
+  // ── State ──────────────────────────────────────────────────────────────────
+  let nextId = 1;
+  let apartments = [];
+
+  function makeApt(name, rent) {
+    return { id: nextId++, name, rent };
+  }
+
+  // ── Chart ──────────────────────────────────────────────────────────────────
   const chart = new Chart(document.getElementById('chart').getContext('2d'), {
     type: 'bar',
     data: {
-      labels: ['Conservative', 'Balanced', 'Best Case'],
+      labels: [],
       datasets: [
-        {
-          label: 'Carrying Costs (mortgage, tax, insurance)',
-          data: [], backgroundColor: 'rgba(59,130,246,0.82)', stack: 'exp',
-        },
-        {
-          label: 'Operating Costs (maintenance, vacancy, mgmt)',
-          data: [], backgroundColor: 'rgba(139,92,246,0.82)', stack: 'exp',
-        },
-        {
-          label: 'Your New Rent — Redwood City',
-          data: [], backgroundColor: 'rgba(249,115,22,0.85)', stack: 'exp',
-        },
-        {
-          label: 'Rental Income — San Lorenzo',
-          type: 'line',
-          data: [],
-          borderColor: '#10b981',
-          backgroundColor: 'transparent',
-          borderWidth: 3,
-          pointRadius: 7,
-          pointBackgroundColor: '#10b981',
-          pointBorderColor: '#fff',
-          pointBorderWidth: 2.5,
-          tension: 0.25,
-          order: 0,
-        },
+        { label: 'Conservative (low SL rent, with PM)', data: [], backgroundColor: 'rgba(239,68,68,0.80)',  borderRadius: 4 },
+        { label: 'Balanced (mid SL rent, self-manage)', data: [], backgroundColor: 'rgba(217,119,6,0.80)',  borderRadius: 4 },
+        { label: 'Best Case (high SL rent, self-manage)',data: [], backgroundColor: 'rgba(16,185,129,0.80)', borderRadius: 4 },
       ],
     },
     options: {
@@ -563,27 +262,15 @@
       maintainAspectRatio: false,
       interaction: { mode: 'index', intersect: false },
       plugins: {
-        legend: {
-          position: 'bottom',
-          labels: { padding: 22, font: { size: 12 }, usePointStyle: true, pointStyleWidth: 10 },
-        },
-        tooltip: {
-          callbacks: {
-            label: ctx => `  ${ctx.dataset.label}: ${$$(ctx.raw)}`,
-          },
-        },
+        legend: { position: 'bottom', labels: { padding: 22, font: { size: 12 }, usePointStyle: true, pointStyleWidth: 10 } },
+        tooltip: { callbacks: { label: ctx => `  ${ctx.dataset.label}: ${fmtNet(ctx.raw)}` } },
       },
       scales: {
-        x: {
-          stacked: true,
-          grid: { display: false },
-          ticks: { font: { size: 13, weight: '600' } },
-        },
+        x: { grid: { display: false }, ticks: { font: { size: 12, weight: '600' } } },
         y: {
-          stacked: true,
           grid: { color: '#f1f5f9' },
           ticks: {
-            callback: v => `$${(v / 1000).toFixed(0)}k`,
+            callback: v => v === 0 ? '$0' : (v > 0 ? `+$${(v/1000).toFixed(1)}k` : `-$${(Math.abs(v)/1000).toFixed(1)}k`),
             font: { size: 12 },
           },
         },
@@ -600,68 +287,169 @@
     return v >= 0 ? `+$${abs}` : `−$${abs}`;
   }
 
-  function setNet(id, v) {
-    const el = document.getElementById(id);
-    el.textContent = fmtNet(v);
-    el.className = 'net-amount ' + (v >= 0 ? 'positive' : 'negative');
-  }
-
-  function fillCard(p, s) {
-    document.getElementById(`${p}-inc`).textContent   = $$(s.rent);
-    document.getElementById(`${p}-carry`).textContent = $$(s.carrying);
-    document.getElementById(`${p}-ops`).textContent   = $$(s.operating);
-    document.getElementById(`${p}-nr`).textContent    = $$(s.newRent);
-    document.getElementById(`${p}-tot`).textContent   = $$(s.totalOut);
+  function netColor(v) {
+    if (v >= 0)      return 'green';
+    if (v >= -1500)  return 'amber';
+    return 'red';
   }
 
   // ── Core math ──────────────────────────────────────────────────────────────
-  function calcScenario({ rent, newRent, usesPM, carrying, maintenance, vacancyMo, pmRate }) {
-    const vacancy   = (rent * vacancyMo) / 12;
-    const mgmt      = usesPM ? rent * (pmRate / 100) : 0;
+  function calcScenario({ slRent, newRent, usesPM, carrying, maintenance, vacancyMo, pmRate }) {
+    const vacancy   = (slRent * vacancyMo) / 12;
+    const mgmt      = usesPM ? slRent * (pmRate / 100) : 0;
     const operating = maintenance + vacancy + mgmt;
     const totalOut  = carrying + operating + newRent;
-    return { rent, newRent, carrying, operating, totalOut, net: rent - totalOut };
+    return { slRent, newRent, carrying, operating, totalOut, net: slRent - totalOut };
   }
 
-  // ── Recalculate everything ─────────────────────────────────────────────────
+  function calcApt(apt, base, rentLow, rentMid, rentHigh) {
+    const nr = apt.rent;
+    return {
+      conservative: calcScenario({ ...base, slRent: rentLow,  newRent: nr, usesPM: true  }),
+      balanced:     calcScenario({ ...base, slRent: rentMid,  newRent: nr, usesPM: false }),
+      bestCase:     calcScenario({ ...base, slRent: rentHigh, newRent: nr, usesPM: false }),
+    };
+  }
+
+  // ── Render apartment input rows ────────────────────────────────────────────
+  function renderApts() {
+    const list = document.getElementById('apt-list');
+    if (apartments.length === 0) {
+      list.innerHTML = '<p style="font-size:13px;color:var(--muted);padding:4px 0">No apartments yet — click Add below.</p>';
+      return;
+    }
+    list.innerHTML = apartments.map((apt, i) => `
+      <div class="apt-row" id="row-${apt.id}">
+        <span class="apt-color" style="background:${APT_COLORS[i % APT_COLORS.length]}"></span>
+        <div class="apt-name-wrap">
+          <input type="text" placeholder="e.g. Oakland 1BR" value="${escHtml(apt.name)}"
+                 oninput="updateApt(${apt.id},'name',this.value)">
+        </div>
+        <div class="input-wrap apt-rent-wrap">
+          <span class="affix left">$</span>
+          <input type="number" value="${apt.rent}" min="0" step="50"
+                 oninput="updateApt(${apt.id},'rent',this.value)">
+          <span class="affix right">/mo</span>
+        </div>
+        <button class="icon-btn" onclick="removeApt(${apt.id})" title="Remove">×</button>
+      </div>
+    `).join('');
+  }
+
+  function escHtml(s) { return s.replace(/&/g,'&amp;').replace(/"/g,'&quot;'); }
+
+  function addApt() {
+    apartments.push(makeApt('', 0));
+    renderApts();
+    // focus the new name input
+    const rows = document.querySelectorAll('.apt-name-wrap input');
+    if (rows.length) rows[rows.length - 1].focus();
+    recalc();
+  }
+
+  function removeApt(id) {
+    apartments = apartments.filter(a => a.id !== id);
+    renderApts();
+    recalc();
+  }
+
+  function updateApt(id, field, value) {
+    const apt = apartments.find(a => a.id === id);
+    if (!apt) return;
+    apt[field] = field === 'rent' ? (parseFloat(value) || 0) : value;
+    recalc();
+  }
+
+  // ── Render table ───────────────────────────────────────────────────────────
+  function renderTable(results, rentLow, rentMid, rentHigh, pmRate) {
+    const body = document.getElementById('table-body');
+    const subC = document.getElementById('sub-c');
+    const subB = document.getElementById('sub-b');
+    const subX = document.getElementById('sub-x');
+
+    subC.textContent = `SL $${rentLow.toLocaleString()} · PM ${pmRate}%`;
+    subB.textContent = `SL $${rentMid.toLocaleString()} · self-manage`;
+    subX.textContent = `SL $${rentHigh.toLocaleString()} · self-manage`;
+
+    if (results.length === 0) {
+      body.innerHTML = '<tr><td colspan="4" class="table-empty">Add an apartment above to see comparison</td></tr>';
+      return;
+    }
+
+    // Find best (least negative) net per scenario column
+    const bestC = Math.max(...results.map(r => r.conservative.net));
+    const bestB = Math.max(...results.map(r => r.balanced.net));
+    const bestX = Math.max(...results.map(r => r.bestCase.net));
+
+    body.innerHTML = results.map((r, i) => {
+      const color = APT_COLORS[i % APT_COLORS.length];
+      const label = r.name || `Apartment ${i + 1}`;
+
+      const cellC = netCell(r.conservative.net, r.conservative.net === bestC);
+      const cellB = netCell(r.balanced.net,     r.balanced.net === bestB);
+      const cellX = netCell(r.bestCase.net,     r.bestCase.net === bestX);
+
+      return `
+        <tr>
+          <td class="name-td">
+            <div class="apt-label"><span class="dot" style="background:${color}"></span>${escHtml(label)}</div>
+            <div class="apt-rent-label">${$$(r.apt.rent)}/mo</div>
+          </td>
+          <td class="val-td">${cellC}</td>
+          <td class="val-td">${cellB}</td>
+          <td class="val-td">${cellX}</td>
+        </tr>`;
+    }).join('');
+  }
+
+  function netCell(v, isBest) {
+    const cls = netColor(v);
+    const badge = isBest ? '<div class="best-badge">★ best</div>' : '';
+    return `<span class="net-val ${cls}">${fmtNet(v)}</span>${badge}`;
+  }
+
+  // ── Main recalculate ───────────────────────────────────────────────────────
   function recalc() {
-    const mortgage   = val('mortgage');
-    const propTax    = val('propTax');
-    const insurance  = val('insurance');
-    const homeValue  = val('homeValue');
-    const rentLow    = val('rentLow');
-    const rentHigh   = val('rentHigh');
-    const newRentLow = val('newRentLow');
-    const newRentHigh= val('newRentHigh');
-    const vacancyMo  = val('vacancyMo');
-    const maintPct   = val('maintPct');
-    const pmRate     = val('pmRate');
+    const mortgage    = val('mortgage');
+    const propTax     = val('propTax');
+    const insurance   = val('insurance');
+    const homeValue   = val('homeValue');
+    const rentLow     = val('rentLow');
+    const rentHigh    = val('rentHigh');
+    const vacancyMo   = val('vacancyMo');
+    const maintPct    = val('maintPct');
+    const pmRate      = val('pmRate');
 
     const carrying    = mortgage + propTax + insurance;
     const maintenance = (homeValue * maintPct / 100) / 12;
     const rentMid     = (rentLow + rentHigh) / 2;
-    const newRentMid  = (newRentLow + newRentHigh) / 2;
 
     const base = { carrying, maintenance, vacancyMo, pmRate };
 
-    const C = calcScenario({ ...base, rent: rentLow,  newRent: newRentHigh, usesPM: true  });
-    const B = calcScenario({ ...base, rent: rentMid,  newRent: newRentMid,  usesPM: false });
-    const X = calcScenario({ ...base, rent: rentHigh, newRent: newRentLow,  usesPM: false });
+    const results = apartments.map(apt => ({
+      apt,
+      name: apt.name,
+      ...calcApt(apt, base, rentLow, rentMid, rentHigh),
+    }));
 
-    // Cards
-    fillCard('c', C); setNet('net-c', C.net);
-    fillCard('b', B); setNet('net-b', B.net);
-    fillCard('x', X); setNet('net-x', X.net);
+    renderTable(results, rentLow, rentMid, rentHigh, pmRate);
 
     // Chart
-    chart.data.datasets[0].data = [C.carrying,  B.carrying,  X.carrying];
-    chart.data.datasets[1].data = [C.operating, B.operating, X.operating];
-    chart.data.datasets[2].data = [C.newRent,   B.newRent,   X.newRent];
-    chart.data.datasets[3].data = [C.rent,      B.rent,      X.rent];
+    const labels = results.map((r, i) => r.name || `Apt ${i + 1}`);
+    chart.data.labels = labels;
+    chart.data.datasets[0].data = results.map(r => r.conservative.net);
+    chart.data.datasets[1].data = results.map(r => r.balanced.net);
+    chart.data.datasets[2].data = results.map(r => r.bestCase.net);
     chart.update();
   }
 
   // ── Boot ───────────────────────────────────────────────────────────────────
+  apartments = [
+    makeApt('Redwood City 1BR', 2500),
+    makeApt('San Mateo 1BR',    2700),
+    makeApt('Oakland 1BR',      2200),
+  ];
+  renderApts();
   recalc();
 </script>
 </body>
