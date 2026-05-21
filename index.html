@@ -53,6 +53,25 @@
     .input-wrap input { width: 100%; border: none; background: transparent; padding: 0 8px; height: 36px; font-size: 13px; font-weight: 600; color: var(--text); outline: none; -moz-appearance: textfield; min-width: 0; }
     .input-wrap input::-webkit-outer-spin-button, .input-wrap input::-webkit-inner-spin-button { -webkit-appearance: none; }
 
+    /* ── Location row ── */
+    .location-row { display: grid; grid-template-columns: 1fr auto 1fr; gap: 16px; align-items: end; }
+    .loc-field { display: flex; flex-direction: column; gap: 7px; }
+    .loc-label { font-size: 11px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); }
+    .loc-arrow { font-size: 22px; color: var(--muted); text-align: center; padding-bottom: 2px; }
+    .text-input-wrap { display: flex; align-items: center; background: #f8fafc; border: 1.5px solid var(--border); border-radius: 8px; overflow: hidden; transition: border-color 0.15s, box-shadow 0.15s; }
+    .text-input-wrap:focus-within { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(59,130,246,0.13); background: #fff; }
+    .text-input-wrap input { width: 100%; border: none; background: transparent; padding: 0 12px; height: 38px; font-size: 13px; font-weight: 500; color: var(--text); outline: none; }
+
+    /* ── Saved paths ── */
+    .paths-bar { display: flex; align-items: center; gap: 10px; padding-top: 16px; margin-top: 16px; border-top: 1px solid var(--border); flex-wrap: wrap; }
+    .save-btn { display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px; background: var(--blue); color: #fff; border: none; border-radius: 8px; font-size: 12px; font-weight: 600; cursor: pointer; flex-shrink: 0; transition: background 0.15s; }
+    .save-btn:hover { background: #2563eb; }
+    .paths-empty { font-size: 12px; color: var(--muted); font-style: italic; }
+    .path-chip { display: inline-flex; align-items: center; gap: 6px; background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 100px; padding: 5px 8px 5px 12px; font-size: 12px; font-weight: 500; color: #1d4ed8; cursor: pointer; white-space: nowrap; transition: background 0.15s; }
+    .path-chip:hover { background: #dbeafe; }
+    .path-chip .chip-del { width: 18px; height: 18px; border-radius: 50%; background: rgba(29,78,216,0.12); border: none; display: inline-flex; align-items: center; justify-content: center; font-size: 11px; color: #1d4ed8; cursor: pointer; flex-shrink: 0; transition: all 0.15s; line-height: 1; padding: 0; }
+    .path-chip .chip-del:hover { background: #ef4444; color: #fff; }
+
     /* ── Apartment list ── */
     .apt-list { display: flex; flex-direction: column; gap: 8px; }
     .apt-row { display: flex; align-items: center; gap: 10px; }
@@ -110,6 +129,8 @@
 
     @media (max-width: 820px) {
       .inputs-grid { grid-template-columns: 1fr; }
+      .location-row { grid-template-columns: 1fr; }
+      .loc-arrow { display: none; }
       .header h1 { font-size: 22px; }
       .net-val { font-size: 18px; }
     }
@@ -119,7 +140,7 @@
 
 <header class="header">
   <div class="route-pill">
-    🏠 San Lorenzo 3BR/2BA <span class="arrow">→</span> Bay Area Rental
+    🏠 <span id="pill-from">San Lorenzo, CA</span> <span class="arrow">→</span> <span id="pill-to">Bay Area</span>
   </div>
   <h1>Housing Decision Dashboard</h1>
   <p>Rent out your home · Compare apartments · See your monthly picture</p>
@@ -128,11 +149,35 @@
 <main class="main">
 
   <!-- ── Inputs ── -->
-  <p class="section-label">Your Numbers</p>
+  <p class="section-label">Your Move</p>
   <div class="inputs-grid">
 
+    <!-- Locations — full width, first -->
+    <div class="card input-card col-span-2">
+      <h3>📍 Locations</h3>
+      <div class="location-row">
+        <div class="loc-field">
+          <span class="loc-label">Current home</span>
+          <div class="text-input-wrap">
+            <input type="text" id="fromLocation" value="San Lorenzo, CA" placeholder="e.g. San Lorenzo, CA" oninput="updateLabels()">
+          </div>
+        </div>
+        <div class="loc-arrow">→</div>
+        <div class="loc-field">
+          <span class="loc-label">Moving to</span>
+          <div class="text-input-wrap">
+            <input type="text" id="toLocation" value="Bay Area" placeholder="e.g. Redwood City, CA" oninput="updateLabels()">
+          </div>
+        </div>
+      </div>
+      <div class="paths-bar">
+        <button class="save-btn" onclick="savePath()">+ Save this path</button>
+        <div id="saved-paths-row"></div>
+      </div>
+    </div>
+
     <div class="card input-card">
-      <h3>🏡 San Lorenzo — Carrying Costs</h3>
+      <h3 id="label-carrying">🏡 San Lorenzo, CA — Carrying Costs</h3>
       <div class="field">
         <label>Mortgage (P&amp;I)</label>
         <div class="input-wrap"><span class="affix left">$</span><input type="number" id="mortgage" value="1500" min="0" step="50" oninput="recalc()"></div>
@@ -152,7 +197,7 @@
     </div>
 
     <div class="card input-card">
-      <h3>💰 San Lorenzo — Rental Income Range</h3>
+      <h3 id="label-income">💰 San Lorenzo, CA — Rental Income Range</h3>
       <div class="field">
         <label>Low estimate <span style="color:var(--muted);font-size:11px">(conservative)</span></label>
         <div class="input-wrap"><span class="affix left">$</span><input type="number" id="rentLow" value="3200" min="0" step="50" oninput="recalc()"></div>
@@ -227,7 +272,7 @@
 
   <div class="footer-note">
     <span class="icon">💡</span>
-    <span>These figures show <strong>cash flow only</strong>. They don't capture equity appreciation in San Lorenzo, principal paydown from tenant rent, or rental income tax deductions — all of which improve the true financial picture over time.</span>
+    <span>These figures show <strong>cash flow only</strong>. They don't capture equity appreciation in <span id="footer-from">San Lorenzo, CA</span>, principal paydown from tenant rent, or rental income tax deductions — all of which improve the true financial picture over time.</span>
   </div>
 
 </main>
@@ -252,9 +297,9 @@
     data: {
       labels: [],
       datasets: [
-        { label: 'Conservative (low SL rent, with PM)', data: [], backgroundColor: 'rgba(239,68,68,0.80)',  borderRadius: 4 },
-        { label: 'Balanced (mid SL rent, self-manage)', data: [], backgroundColor: 'rgba(217,119,6,0.80)',  borderRadius: 4 },
-        { label: 'Best Case (high SL rent, self-manage)',data: [], backgroundColor: 'rgba(16,185,129,0.80)', borderRadius: 4 },
+        { label: 'Conservative (low rent, with PM)', data: [], backgroundColor: 'rgba(239,68,68,0.80)',  borderRadius: 4 },
+        { label: 'Balanced (mid rent, self-manage)',  data: [], backgroundColor: 'rgba(217,119,6,0.80)',  borderRadius: 4 },
+        { label: 'Best Case (high rent, self-manage)',data: [], backgroundColor: 'rgba(16,185,129,0.80)', borderRadius: 4 },
       ],
     },
     options: {
@@ -281,6 +326,7 @@
   // ── Helpers ────────────────────────────────────────────────────────────────
   const $$ = v => '$' + Math.round(v).toLocaleString();
   const val = id => parseFloat(document.getElementById(id).value) || 0;
+  const strVal = id => document.getElementById(id).value.trim();
 
   function fmtNet(v) {
     const abs = Math.round(Math.abs(v)).toLocaleString();
@@ -291,6 +337,12 @@
     if (v >= 0)      return 'green';
     if (v >= -1500)  return 'amber';
     return 'red';
+  }
+
+  function shortFrom() {
+    const from = strVal('fromLocation');
+    if (!from) return 'Home';
+    return from.split(',')[0].trim();
   }
 
   // ── Core math ──────────────────────────────────────────────────────────────
@@ -341,7 +393,6 @@
   function addApt() {
     apartments.push(makeApt('', 0));
     renderApts();
-    // focus the new name input
     const rows = document.querySelectorAll('.apt-name-wrap input');
     if (rows.length) rows[rows.length - 1].focus();
     recalc();
@@ -366,17 +417,17 @@
     const subC = document.getElementById('sub-c');
     const subB = document.getElementById('sub-b');
     const subX = document.getElementById('sub-x');
+    const sf = shortFrom();
 
-    subC.textContent = `SL $${rentLow.toLocaleString()} · PM ${pmRate}%`;
-    subB.textContent = `SL $${rentMid.toLocaleString()} · self-manage`;
-    subX.textContent = `SL $${rentHigh.toLocaleString()} · self-manage`;
+    subC.textContent = `${sf} $${rentLow.toLocaleString()} · PM ${pmRate}%`;
+    subB.textContent = `${sf} $${rentMid.toLocaleString()} · self-manage`;
+    subX.textContent = `${sf} $${rentHigh.toLocaleString()} · self-manage`;
 
     if (results.length === 0) {
       body.innerHTML = '<tr><td colspan="4" class="table-empty">Add an apartment above to see comparison</td></tr>';
       return;
     }
 
-    // Find best (least negative) net per scenario column
     const bestC = Math.max(...results.map(r => r.conservative.net));
     const bestB = Math.max(...results.map(r => r.balanced.net));
     const bestX = Math.max(...results.map(r => r.bestCase.net));
@@ -434,13 +485,112 @@
 
     renderTable(results, rentLow, rentMid, rentHigh, pmRate);
 
-    // Chart
     const labels = results.map((r, i) => r.name || `Apt ${i + 1}`);
     chart.data.labels = labels;
     chart.data.datasets[0].data = results.map(r => r.conservative.net);
     chart.data.datasets[1].data = results.map(r => r.balanced.net);
     chart.data.datasets[2].data = results.map(r => r.bestCase.net);
     chart.update();
+  }
+
+  // ── Dynamic labels ─────────────────────────────────────────────────────────
+  function updateLabels() {
+    const from = strVal('fromLocation') || 'Your Home';
+    const to   = strVal('toLocation')   || 'New Location';
+
+    document.getElementById('pill-from').textContent        = from;
+    document.getElementById('pill-to').textContent          = to;
+    document.getElementById('label-carrying').textContent   = `🏡 ${from} — Carrying Costs`;
+    document.getElementById('label-income').textContent     = `💰 ${from} — Rental Income Range`;
+    document.getElementById('footer-from').textContent      = from;
+
+    recalc();
+  }
+
+  // ── Saved paths (localStorage) ─────────────────────────────────────────────
+  const STORAGE_KEY = 'housing_saved_paths';
+
+  function loadPaths() {
+    try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; }
+    catch { return []; }
+  }
+
+  function storePaths(paths) {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(paths));
+  }
+
+  function currentConfig() {
+    return {
+      fromLocation: strVal('fromLocation'),
+      toLocation:   strVal('toLocation'),
+      mortgage:     val('mortgage'),
+      propTax:      val('propTax'),
+      insurance:    val('insurance'),
+      homeValue:    val('homeValue'),
+      rentLow:      val('rentLow'),
+      rentHigh:     val('rentHigh'),
+      vacancyMo:    val('vacancyMo'),
+      maintPct:     val('maintPct'),
+      pmRate:       val('pmRate'),
+      apartments:   apartments.map(a => ({ name: a.name, rent: a.rent })),
+    };
+  }
+
+  function savePath() {
+    const from = strVal('fromLocation') || 'Your Home';
+    const to   = strVal('toLocation')   || 'New Location';
+    const defaultName = `${from} → ${to}`;
+    const name = prompt('Name this path:', defaultName);
+    if (name === null) return;
+
+    const paths = loadPaths();
+    paths.push({ id: Date.now(), name: name.trim() || defaultName, ...currentConfig() });
+    storePaths(paths);
+    renderSavedPaths();
+  }
+
+  function loadPath(id) {
+    const path = loadPaths().find(p => p.id === id);
+    if (!path) return;
+
+    document.getElementById('fromLocation').value = path.fromLocation;
+    document.getElementById('toLocation').value   = path.toLocation;
+    document.getElementById('mortgage').value     = path.mortgage;
+    document.getElementById('propTax').value      = path.propTax;
+    document.getElementById('insurance').value    = path.insurance;
+    document.getElementById('homeValue').value    = path.homeValue;
+    document.getElementById('rentLow').value      = path.rentLow;
+    document.getElementById('rentHigh').value     = path.rentHigh;
+    document.getElementById('vacancyMo').value    = path.vacancyMo;
+    document.getElementById('maintPct').value     = path.maintPct;
+    document.getElementById('pmRate').value       = path.pmRate;
+
+    nextId = 1;
+    apartments = (path.apartments || []).map(a => makeApt(a.name, a.rent));
+    renderApts();
+    updateLabels();
+  }
+
+  function deletePath(id, e) {
+    e.stopPropagation();
+    const paths = loadPaths().filter(p => p.id !== id);
+    storePaths(paths);
+    renderSavedPaths();
+  }
+
+  function renderSavedPaths() {
+    const paths = loadPaths();
+    const row = document.getElementById('saved-paths-row');
+    if (paths.length === 0) {
+      row.innerHTML = '<span class="paths-empty">No saved paths yet</span>';
+      return;
+    }
+    row.innerHTML = paths.map(p => `
+      <button class="path-chip" onclick="loadPath(${p.id})" title="Load: ${escHtml(p.name)}">
+        ${escHtml(p.name)}
+        <span class="chip-del" onclick="deletePath(${p.id}, event)" title="Delete">×</span>
+      </button>
+    `).join('');
   }
 
   // ── Boot ───────────────────────────────────────────────────────────────────
@@ -450,7 +600,8 @@
     makeApt('Oakland 1BR',      2200),
   ];
   renderApts();
-  recalc();
+  renderSavedPaths();
+  updateLabels();
 </script>
 </body>
 </html>
