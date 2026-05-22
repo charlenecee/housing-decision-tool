@@ -37,6 +37,20 @@
     .section-label:first-child { margin-top: 0; }
     .card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); }
 
+    /* ── Onboarding ── */
+    .onboarding-card { background: linear-gradient(135deg, #f0f9ff 0%, #f0fdf4 100%); border: 1.5px solid #bae6fd; border-radius: var(--radius); padding: 36px; margin-bottom: 8px; box-shadow: var(--shadow); }
+    .onboarding-title { font-size: 22px; font-weight: 700; margin-bottom: 8px; }
+    .onboarding-subtitle { font-size: 14px; color: var(--muted); line-height: 1.7; max-width: 640px; }
+    .onboarding-steps { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 24px 0 28px; }
+    .onboarding-step { display: flex; gap: 12px; align-items: flex-start; background: rgba(255,255,255,0.75); border: 1px solid rgba(186,230,253,0.6); border-radius: 10px; padding: 14px 16px; }
+    .step-num { width: 26px; height: 26px; border-radius: 50%; background: var(--blue); color: #fff; font-size: 12px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
+    .step-text strong { display: block; font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 2px; }
+    .step-text span { font-size: 12px; color: var(--muted); line-height: 1.5; }
+    .onboarding-footer { display: flex; align-items: center; gap: 16px; }
+    .onboarding-btn { padding: 10px 24px; background: var(--blue); color: #fff; border: none; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; transition: background 0.15s; }
+    .onboarding-btn:hover { background: #2563eb; }
+    .onboarding-tip { font-size: 12px; color: var(--muted); }
+
     /* ── Inputs ── */
     .inputs-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
     .col-span-2 { grid-column: 1 / -1; }
@@ -88,7 +102,6 @@
     /* ── Comparison table ── */
     .table-card { overflow: hidden; }
     .table-scroll { overflow-x: auto; }
-
     table { width: 100%; border-collapse: collapse; }
     thead tr.header-row th { padding: 16px 20px 10px; font-size: 12px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; border-bottom: 1px solid var(--border); }
     thead tr.header-row th:first-child { text-align: left; color: var(--muted); }
@@ -98,23 +111,19 @@
     th.col-x { color: var(--best); }
     thead tr.subhead-row td { padding: 6px 20px 12px; font-size: 11px; color: var(--muted); border-bottom: 2px solid var(--border); }
     thead tr.subhead-row td:not(:first-child) { text-align: right; }
-
     tbody tr { border-bottom: 1px solid var(--border); transition: background 0.1s; }
     tbody tr:last-child { border-bottom: none; }
     tbody tr:hover { background: #f8fafc; }
-
     td.name-td { padding: 18px 20px; }
     .apt-label { font-weight: 700; font-size: 14px; display: flex; align-items: center; gap: 8px; }
     .apt-label .dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
     .apt-rent-label { font-size: 12px; color: var(--muted); margin-top: 2px; padding-left: 18px; }
-
     td.val-td { padding: 18px 20px; text-align: right; vertical-align: middle; }
     .net-val { font-size: 22px; font-weight: 800; letter-spacing: -0.5px; display: block; }
     .net-val.red   { color: var(--conservative); }
     .net-val.amber { color: var(--balanced); }
     .net-val.green { color: var(--best); }
     .best-badge { display: inline-flex; align-items: center; gap: 3px; font-size: 10px; font-weight: 700; background: #dcfce7; color: #166534; border-radius: 5px; padding: 2px 7px; margin-top: 4px; }
-
     .table-empty { padding: 48px; text-align: center; color: var(--muted); }
 
     /* ── Chart ── */
@@ -122,6 +131,19 @@
     .chart-card h3 { font-size: 16px; font-weight: 700; margin-bottom: 4px; }
     .chart-sub { font-size: 13px; color: var(--muted); margin-bottom: 26px; }
     .chart-wrap { position: relative; height: 320px; }
+
+    /* ── Email ── */
+    .email-card { padding: 24px; }
+    .email-card h3 { font-size: 15px; font-weight: 700; margin-bottom: 4px; }
+    .email-card p { font-size: 13px; color: var(--muted); margin-bottom: 16px; }
+    .email-row { display: flex; gap: 10px; align-items: stretch; }
+    .email-input-wrap { flex: 1; display: flex; align-items: center; background: #f8fafc; border: 1.5px solid var(--border); border-radius: 8px; overflow: hidden; transition: border-color 0.15s, box-shadow 0.15s; }
+    .email-input-wrap:focus-within { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(59,130,246,0.13); background: #fff; }
+    .email-input-wrap.error { border-color: var(--conservative); }
+    .email-input-wrap input { width: 100%; border: none; background: transparent; padding: 0 14px; height: 40px; font-size: 14px; color: var(--text); outline: none; }
+    .email-send-btn { padding: 0 22px; height: 40px; background: var(--blue); color: #fff; border: none; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer; white-space: nowrap; transition: background 0.15s; flex-shrink: 0; }
+    .email-send-btn:hover { background: #2563eb; }
+    .email-note { font-size: 11px; color: var(--muted); margin-top: 10px; }
 
     /* ── Footer ── */
     .footer-note { display: flex; gap: 12px; background: #fffbeb; border: 1px solid #fde68a; border-radius: var(--radius); padding: 16px 20px; font-size: 13px; color: #78350f; line-height: 1.6; margin-top: 16px; }
@@ -131,6 +153,7 @@
       .inputs-grid { grid-template-columns: 1fr; }
       .location-row { grid-template-columns: 1fr; }
       .loc-arrow { display: none; }
+      .onboarding-steps { grid-template-columns: 1fr; }
       .header h1 { font-size: 22px; }
       .net-val { font-size: 18px; }
     }
@@ -140,13 +163,53 @@
 
 <header class="header">
   <div class="route-pill">
-    🏠 <span id="pill-from">San Lorenzo, CA</span> <span class="arrow">→</span> <span id="pill-to">Bay Area</span>
+    🏠 <span id="pill-from">Your Home</span> <span class="arrow">→</span> <span id="pill-to">New Location</span>
   </div>
   <h1>Housing Decision Dashboard</h1>
   <p>Rent out your home · Compare apartments · See your monthly picture</p>
 </header>
 
 <main class="main">
+
+  <!-- ── Onboarding (first-time visitors only) ── -->
+  <div id="onboarding" class="onboarding-card" style="display:none">
+    <h2 class="onboarding-title">👋 Welcome to the Housing Decision Dashboard</h2>
+    <p class="onboarding-subtitle">This tool calculates your monthly cash flow when you rent out your current home and move somewhere new. Fill in your numbers and compare apartments side by side across three financial scenarios.</p>
+    <div class="onboarding-steps">
+      <div class="onboarding-step">
+        <div class="step-num">1</div>
+        <div class="step-text">
+          <strong>Enter your locations</strong>
+          <span>Where you own a home now, and the area you want to move to.</span>
+        </div>
+      </div>
+      <div class="onboarding-step">
+        <div class="step-num">2</div>
+        <div class="step-text">
+          <strong>Add your home's carrying costs</strong>
+          <span>Mortgage payment, property tax, insurance, and home value.</span>
+        </div>
+      </div>
+      <div class="onboarding-step">
+        <div class="step-num">3</div>
+        <div class="step-text">
+          <strong>Set your rental income range</strong>
+          <span>A low and high estimate for what a tenant would pay each month.</span>
+        </div>
+      </div>
+      <div class="onboarding-step">
+        <div class="step-num">4</div>
+        <div class="step-text">
+          <strong>Add apartments to compare</strong>
+          <span>Name and monthly rent for each place you're considering moving to.</span>
+        </div>
+      </div>
+    </div>
+    <div class="onboarding-footer">
+      <button class="onboarding-btn" onclick="dismissOnboarding()">Get started →</button>
+      <span class="onboarding-tip">💾 Use "Save this path" to preserve your numbers for next time.</span>
+    </div>
+  </div>
 
   <!-- ── Inputs ── -->
   <p class="section-label">Your Move</p>
@@ -159,14 +222,14 @@
         <div class="loc-field">
           <span class="loc-label">Current home</span>
           <div class="text-input-wrap">
-            <input type="text" id="fromLocation" value="San Lorenzo, CA" placeholder="e.g. San Lorenzo, CA" oninput="updateLabels()">
+            <input type="text" id="fromLocation" value="" placeholder="e.g. San Lorenzo, CA" oninput="updateLabels()">
           </div>
         </div>
         <div class="loc-arrow">→</div>
         <div class="loc-field">
           <span class="loc-label">Moving to</span>
           <div class="text-input-wrap">
-            <input type="text" id="toLocation" value="Bay Area" placeholder="e.g. Redwood City, CA" oninput="updateLabels()">
+            <input type="text" id="toLocation" value="" placeholder="e.g. Redwood City, CA" oninput="updateLabels()">
           </div>
         </div>
       </div>
@@ -177,34 +240,34 @@
     </div>
 
     <div class="card input-card">
-      <h3 id="label-carrying">🏡 San Lorenzo, CA — Carrying Costs</h3>
+      <h3 id="label-carrying">🏡 Your Home — Carrying Costs</h3>
       <div class="field">
         <label>Mortgage (P&amp;I)</label>
-        <div class="input-wrap"><span class="affix left">$</span><input type="number" id="mortgage" value="1500" min="0" step="50" oninput="recalc()"></div>
+        <div class="input-wrap"><span class="affix left">$</span><input type="number" id="mortgage" value="" placeholder="0" min="0" step="50" oninput="recalc()"></div>
       </div>
       <div class="field">
         <label>Property tax / mo</label>
-        <div class="input-wrap"><span class="affix left">$</span><input type="number" id="propTax" value="500" min="0" step="10" oninput="recalc()"></div>
+        <div class="input-wrap"><span class="affix left">$</span><input type="number" id="propTax" value="" placeholder="0" min="0" step="10" oninput="recalc()"></div>
       </div>
       <div class="field">
         <label>Insurance / mo</label>
-        <div class="input-wrap"><span class="affix left">$</span><input type="number" id="insurance" value="143" min="0" step="5" oninput="recalc()"></div>
+        <div class="input-wrap"><span class="affix left">$</span><input type="number" id="insurance" value="" placeholder="0" min="0" step="5" oninput="recalc()"></div>
       </div>
       <div class="field">
         <label>Home value</label>
-        <div class="input-wrap"><span class="affix left">$</span><input type="number" id="homeValue" value="600000" min="0" step="10000" oninput="recalc()"></div>
+        <div class="input-wrap"><span class="affix left">$</span><input type="number" id="homeValue" value="" placeholder="0" min="0" step="10000" oninput="recalc()"></div>
       </div>
     </div>
 
     <div class="card input-card">
-      <h3 id="label-income">💰 San Lorenzo, CA — Rental Income Range</h3>
+      <h3 id="label-income">💰 Your Home — Rental Income Range</h3>
       <div class="field">
         <label>Low estimate <span style="color:var(--muted);font-size:11px">(conservative)</span></label>
-        <div class="input-wrap"><span class="affix left">$</span><input type="number" id="rentLow" value="3200" min="0" step="50" oninput="recalc()"></div>
+        <div class="input-wrap"><span class="affix left">$</span><input type="number" id="rentLow" value="" placeholder="0" min="0" step="50" oninput="recalc()"></div>
       </div>
       <div class="field">
         <label>High estimate <span style="color:var(--muted);font-size:11px">(best case)</span></label>
-        <div class="input-wrap"><span class="affix left">$</span><input type="number" id="rentHigh" value="3400" min="0" step="50" oninput="recalc()"></div>
+        <div class="input-wrap"><span class="affix left">$</span><input type="number" id="rentHigh" value="" placeholder="0" min="0" step="50" oninput="recalc()"></div>
       </div>
     </div>
 
@@ -270,9 +333,23 @@
     <div class="chart-wrap"><canvas id="chart"></canvas></div>
   </div>
 
+  <!-- ── Share via Email ── -->
+  <p class="section-label">Share Results</p>
+  <div class="card email-card">
+    <h3>📧 Email This Analysis</h3>
+    <p>Send a formatted summary of your inputs and cash flow results to yourself or a collaborator.</p>
+    <div class="email-row">
+      <div class="email-input-wrap" id="email-wrap">
+        <input type="email" id="emailRecipient" placeholder="recipient@example.com" oninput="clearEmailError()">
+      </div>
+      <button class="email-send-btn" onclick="composeEmail()">Send →</button>
+    </div>
+    <p class="email-note">Opens your email app with the summary pre-filled. Nothing is sent automatically.</p>
+  </div>
+
   <div class="footer-note">
     <span class="icon">💡</span>
-    <span>These figures show <strong>cash flow only</strong>. They don't capture equity appreciation in <span id="footer-from">San Lorenzo, CA</span>, principal paydown from tenant rent, or rental income tax deductions — all of which improve the true financial picture over time.</span>
+    <span>These figures show <strong>cash flow only</strong>. They don't capture equity appreciation in <span id="footer-from">your home</span>, principal paydown from tenant rent, or rental income tax deductions — all of which improve the true financial picture over time.</span>
   </div>
 
 </main>
@@ -388,7 +465,7 @@
     `).join('');
   }
 
-  function escHtml(s) { return s.replace(/&/g,'&amp;').replace(/"/g,'&quot;'); }
+  function escHtml(s) { return String(s).replace(/&/g,'&amp;').replace(/"/g,'&quot;'); }
 
   function addApt() {
     apartments.push(makeApt('', 0));
@@ -420,7 +497,7 @@
     const sf = shortFrom();
 
     subC.textContent = `${sf} $${rentLow.toLocaleString()} · PM ${pmRate}%`;
-    subB.textContent = `${sf} $${rentMid.toLocaleString()} · self-manage`;
+    subB.textContent = `${sf} $${Math.round(rentMid).toLocaleString()} · self-manage`;
     subX.textContent = `${sf} $${rentHigh.toLocaleString()} · self-manage`;
 
     if (results.length === 0) {
@@ -498,13 +575,26 @@
     const from = strVal('fromLocation') || 'Your Home';
     const to   = strVal('toLocation')   || 'New Location';
 
-    document.getElementById('pill-from').textContent        = from;
-    document.getElementById('pill-to').textContent          = to;
-    document.getElementById('label-carrying').textContent   = `🏡 ${from} — Carrying Costs`;
-    document.getElementById('label-income').textContent     = `💰 ${from} — Rental Income Range`;
-    document.getElementById('footer-from').textContent      = from;
+    document.getElementById('pill-from').textContent      = from;
+    document.getElementById('pill-to').textContent        = to;
+    document.getElementById('label-carrying').textContent = `🏡 ${from} — Carrying Costs`;
+    document.getElementById('label-income').textContent   = `💰 ${from} — Rental Income Range`;
+    document.getElementById('footer-from').textContent    = from;
 
     recalc();
+  }
+
+  // ── Onboarding ─────────────────────────────────────────────────────────────
+  const VISITED_KEY = 'housing_visited';
+
+  function isFirstVisit() {
+    try { return !localStorage.getItem(VISITED_KEY); }
+    catch { return false; }
+  }
+
+  function dismissOnboarding() {
+    document.getElementById('onboarding').style.display = 'none';
+    try { localStorage.setItem(VISITED_KEY, '1'); } catch {}
   }
 
   // ── Saved paths (localStorage) ─────────────────────────────────────────────
@@ -516,7 +606,7 @@
   }
 
   function storePaths(paths) {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(paths));
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(paths)); } catch {}
   }
 
   function currentConfig() {
@@ -593,15 +683,104 @@
     `).join('');
   }
 
+  // ── Email results ──────────────────────────────────────────────────────────
+  function clearEmailError() {
+    document.getElementById('email-wrap').classList.remove('error');
+  }
+
+  function composeEmail() {
+    const recipient = document.getElementById('emailRecipient').value.trim();
+    if (!recipient || !recipient.includes('@')) {
+      document.getElementById('email-wrap').classList.add('error');
+      document.getElementById('emailRecipient').focus();
+      return;
+    }
+
+    const from = strVal('fromLocation') || 'Your Home';
+    const to   = strVal('toLocation')   || 'New Location';
+
+    const mortgage  = val('mortgage');
+    const propTax   = val('propTax');
+    const insurance = val('insurance');
+    const homeValue = val('homeValue');
+    const rentLow   = val('rentLow');
+    const rentHigh  = val('rentHigh');
+    const vacancyMo = val('vacancyMo');
+    const maintPct  = val('maintPct');
+    const pmRate    = val('pmRate');
+
+    const carrying    = mortgage + propTax + insurance;
+    const maintenance = (homeValue * maintPct / 100) / 12;
+    const rentMid     = (rentLow + rentHigh) / 2;
+    const base        = { carrying, maintenance, vacancyMo, pmRate };
+
+    const fmt    = v => Math.round(v).toLocaleString();
+    const fmtE   = v => v >= 0 ? `+$${fmt(v)}` : `-$${fmt(Math.abs(v))}`;
+
+    let b = '';
+    b += `HOUSING ANALYSIS: ${from} -> ${to}\r\n`;
+    b += `${'='.repeat(50)}\r\n\r\n`;
+
+    b += `HOME: ${from}\r\n`;
+    b += `  Carrying costs:    $${fmt(carrying)}/mo\r\n`;
+    b += `    Mortgage:        $${fmt(mortgage)}/mo\r\n`;
+    b += `    Property tax:    $${fmt(propTax)}/mo\r\n`;
+    b += `    Insurance:       $${fmt(insurance)}/mo\r\n`;
+    b += `  Home value:        $${fmt(homeValue)}\r\n`;
+    b += `  Rental income:     $${fmt(rentLow)} - $${fmt(rentHigh)}/mo\r\n\r\n`;
+
+    b += `LANDLORD ASSUMPTIONS\r\n`;
+    b += `  Vacancy: ${vacancyMo} mo/yr | Maintenance: ${maintPct}%/yr | PM fee: ${pmRate}%\r\n\r\n`;
+
+    if (apartments.length === 0) {
+      b += `No apartments added to comparison.\r\n`;
+    } else {
+      b += `MONTHLY CASH FLOW (moving to ${to})\r\n`;
+      b += `${'─'.repeat(50)}\r\n`;
+
+      const results = apartments.map(apt => ({
+        apt, name: apt.name,
+        ...calcApt(apt, base, rentLow, rentMid, rentHigh),
+      }));
+
+      const bestC = Math.max(...results.map(r => r.conservative.net));
+      const bestB = Math.max(...results.map(r => r.balanced.net));
+      const bestX = Math.max(...results.map(r => r.bestCase.net));
+
+      results.forEach((r, i) => {
+        const label = r.name || `Apartment ${i + 1}`;
+        b += `\r\n${label} ($${fmt(r.apt.rent)}/mo)\r\n`;
+        b += `  Conservative:  ${fmtE(r.conservative.net)}${r.conservative.net === bestC ? '  <- best' : ''}\r\n`;
+        b += `  Balanced:      ${fmtE(r.balanced.net)}${r.balanced.net === bestB ? '  <- best' : ''}\r\n`;
+        b += `  Best Case:     ${fmtE(r.bestCase.net)}${r.bestCase.net === bestX ? '  <- best' : ''}\r\n`;
+      });
+
+      b += `\r\n${'─'.repeat(50)}\r\n`;
+      b += `SCENARIOS\r\n`;
+      b += `  Conservative = $${fmt(rentLow)}/mo rental income + property manager (${pmRate}%)\r\n`;
+      b += `  Balanced     = $${fmt(Math.round(rentMid))}/mo rental income + self-managed\r\n`;
+      b += `  Best Case    = $${fmt(rentHigh)}/mo rental income + self-managed\r\n`;
+    }
+
+    b += `\r\n${'='.repeat(50)}\r\n`;
+    b += `Note: Cash flow only. Equity appreciation, principal paydown,\r\n`;
+    b += `and rental tax deductions are not reflected here.\r\n\r\n`;
+    b += `Generated by Housing Decision Dashboard\r\n`;
+    b += `https://charlenecee.github.io/housing-decision-tool/`;
+
+    const subject = `Housing Analysis: ${from} -> ${to}`;
+    window.location.href = `mailto:${encodeURIComponent(recipient)}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(b)}`;
+  }
+
   // ── Boot ───────────────────────────────────────────────────────────────────
-  apartments = [
-    makeApt('Redwood City 1BR', 2500),
-    makeApt('San Mateo 1BR',    2700),
-    makeApt('Oakland 1BR',      2200),
-  ];
+  apartments = [];
   renderApts();
   renderSavedPaths();
   updateLabels();
+
+  if (isFirstVisit()) {
+    document.getElementById('onboarding').style.display = 'block';
+  }
 </script>
 </body>
 </html>
