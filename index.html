@@ -1,9 +1,27 @@
 <!DOCTYPE html>
+<!--
+  SUBSTACK SHARE LINK — paste this URL into your Substack post:
+  https://housingcalc.netlify.app/?utm_source=substack&utm_medium=email&utm_campaign=housing-calculator
+
+  GA4 will automatically capture the UTM params.
+  To activate tracking: replace G-XXXXXXXXXX below with your Measurement ID.
+  Get one free at https://analytics.google.com → Admin → Create property
+-->
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Housing Decision Dashboard</title>
+
+  <!-- Google Analytics 4 — replace G-XXXXXXXXXX with your Measurement ID -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-XXXXXXXXXX');
+  </script>
+
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
