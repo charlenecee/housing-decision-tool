@@ -175,6 +175,60 @@
       .header h1 { font-size: 22px; }
       .net-val { font-size: 18px; }
     }
+
+    /* ── Mobile: table → stacked per-apartment cards ── */
+    @media (max-width: 640px) {
+      /* unwrap the card shell so each row becomes its own card */
+      .table-card { overflow: visible; background: transparent; border: none; box-shadow: none; }
+      .table-scroll { overflow-x: visible; }
+
+      table, tbody { display: block; }
+      thead { display: none; }
+
+      /* each row becomes a card */
+      tbody tr {
+        display: block;
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+        margin-bottom: 10px;
+        overflow: hidden;
+      }
+      tbody tr:last-child { border-bottom: 1px solid var(--border); margin-bottom: 0; }
+      tbody tr:hover { background: var(--card); }
+
+      /* apartment name sits at the top of each card */
+      td.name-td { display: block; background: #f8fafc; border-bottom: 2px solid var(--border); padding: 14px 16px; }
+
+      /* value rows: label on the left, number on the right */
+      td, td.val-td {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        text-align: right;
+        padding: 11px 16px;
+        border-bottom: 1px solid var(--border);
+      }
+      td.val-td:last-child { border-bottom: none; }
+
+      /* inject the column name from data-label */
+      td.val-td::before {
+        content: attr(data-label);
+        font-size: 11px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        flex-shrink: 0;
+        text-align: left;
+      }
+      td.val-td:nth-child(2)::before { color: var(--conservative); }
+      td.val-td:nth-child(3)::before { color: var(--balanced); }
+      td.val-td:nth-child(4)::before { color: var(--best); }
+
+      .net-val { font-size: 16px; }
+      .table-empty { display: block; padding: 32px 16px; font-size: 13px; }
+    }
   </style>
 </head>
 <body>
@@ -541,9 +595,9 @@
             <div class="apt-label"><span class="dot" style="background:${color}"></span>${escHtml(label)}</div>
             <div class="apt-rent-label">${$$(r.apt.rent)}/mo</div>
           </td>
-          <td class="val-td">${cellC}</td>
-          <td class="val-td">${cellB}</td>
-          <td class="val-td">${cellX}</td>
+          <td class="val-td" data-label="Conservative">${cellC}</td>
+          <td class="val-td" data-label="Balanced">${cellB}</td>
+          <td class="val-td" data-label="Best Case">${cellX}</td>
         </tr>`;
     }).join('');
   }
