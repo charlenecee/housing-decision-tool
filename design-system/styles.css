@@ -1,0 +1,9 @@
+/* Soulful Backpack Design System — global entry point.
+   Consumers link THIS one file. It is a manifest of @import lines only;
+   everything it reaches (tokens + fonts) ships to consumers. */
+
+@import "tokens/fonts.css";
+@import "tokens/colors.css";
+@import "tokens/typography.css";
+@import "tokens/spacing.css";
+@import "base/base.css";

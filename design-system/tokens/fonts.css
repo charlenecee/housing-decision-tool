@@ -1,0 +1,8 @@
+/* Soulful Backpack — typefaces.
+   Lora (quiet serif) carries headlines and every number.
+   Mulish (humanist sans) carries body, labels, and UI.
+   Pass 1 loads the real families from Google Fonts. To make the system fully
+   offline/self-hosted, replace these @imports with @font-face rules pointing
+   at woff2 binaries in assets/fonts/ (flagged in readme). */
+
+@import url("https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Mulish:wght@400;500;600;700;800&display=swap");

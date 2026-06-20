@@ -1,0 +1,49 @@
+<!-- @dsCard group="Components" viewport="700x460" subtitle="Scrim + paper panel with grip, appears instantly" name="BottomSheet" -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<link rel="stylesheet" href="../../styles.css" />
+<style>
+  body { margin: 0; background: var(--sand); padding: 26px; display: flex; justify-content: center; }
+  .surface { position: relative; width: 402px; height: 400px; background: var(--paper); border-radius: 20px; border: 1px solid var(--line-soft); box-shadow: var(--shadow-card); overflow: hidden; }
+  .surface-head { padding: 22px; }
+  .h { font-family: var(--font-serif); font-weight: 600; font-size: 22px; color: var(--text-primary); margin: 0; }
+</style>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script src="../../_ds_bundle.js"></script>
+</head>
+<body class="bp">
+<div id="root"></div>
+<script type="text/babel">
+  const __ns = (name) => { for (const k of Object.keys(window)) { try { const v = window[k]; if (v && typeof v === 'object' && v[name]) return v; } catch(e){} } return {}; };
+  const { BottomSheet } = __ns('BottomSheet');
+  const { StatusChip } = __ns('StatusChip');
+
+  function Demo() {
+    const [open, setOpen] = React.useState(true);
+    return (
+      <div className="surface">
+        <div className="surface-head">
+          <button className="bp-btn" onClick={() => setOpen(true)}>Open the sheet</button>
+        </div>
+        <BottomSheet open={open} onClose={() => setOpen(false)}>
+          <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',marginTop:6}}>
+            <StatusChip tone="sold">Sold</StatusChip>
+            <button className="bp-ghost" onClick={() => setOpen(false)}>Done</button>
+          </div>
+          <h2 className="h" style={{marginTop:14}}>Orange reading chair</h2>
+          <p style={{fontFamily:'var(--font-serif)',fontStyle:'italic',fontSize:15,lineHeight:1.5,color:'var(--text-secondary)'}}>
+            “It sold on Saturday. I thought I'd feel sad but mostly I felt lighter.”
+          </p>
+          <button className="bp-btn" style={{width:'100%',marginTop:10}}>Save this story</button>
+        </BottomSheet>
+      </div>
+    );
+  }
+  ReactDOM.createRoot(document.getElementById('root')).render(<Demo />);
+</script>
+</body>
+</html>

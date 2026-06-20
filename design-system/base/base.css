@@ -1,0 +1,103 @@
+/* Soulful Backpack — base element + utility layer.
+   The low-level primitives the brand uses everywhere: the freeform writing
+   field, the primary/ghost buttons, the kicker overline, and the calm "rise"
+   entrance. Built entirely on tokens so a re-theme never touches this file.
+   (Higher-level pieces — chips, cards, tab bars — are React components.) */
+
+.bp {
+  font-family: var(--font-sans);
+  color: var(--text-primary);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+.bp *, .bp *::before, .bp *::after { box-sizing: border-box; }
+
+/* Kicker / overline */
+.bp-kicker {
+  font-family: var(--font-sans);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-kicker);
+  font-weight: var(--weight-bold);
+  font-size: var(--text-kicker);
+  color: var(--text-muted);
+}
+
+/* The freeform writing field — generous, no walls. The brand's signature input. */
+.bp-field {
+  width: 100%;
+  border: none;
+  outline: none;
+  resize: none;
+  background: transparent;
+  color: var(--text-primary);
+  font-family: inherit;
+  letter-spacing: 0.1px;
+  caret-color: var(--action);
+}
+.bp-field::placeholder { color: var(--text-muted); opacity: 0.85; }
+
+/* Primary action — pill, terracotta, soft warm glow */
+.bp-btn {
+  appearance: none;
+  border: none;
+  cursor: pointer;
+  font-family: var(--font-sans);
+  font-weight: var(--weight-bold);
+  font-size: var(--text-ui);
+  color: var(--text-on-accent);
+  background: var(--action);
+  border-radius: var(--radius-pill);
+  padding: 14px 22px;
+  white-space: nowrap;
+  box-shadow: var(--shadow-action);
+  transition: transform var(--dur-quick) ease, background 0.25s ease,
+              opacity 0.3s ease, box-shadow 0.25s ease;
+}
+.bp-btn:hover { background: var(--action-hover); }
+.bp-btn:active { transform: translateY(1px) scale(0.99); }
+.bp-btn:disabled {
+  background: var(--bg-pressed);
+  color: var(--text-muted);
+  box-shadow: none;
+  cursor: default;
+}
+
+/* Ghost action — quiet, text-weight */
+.bp-ghost {
+  appearance: none;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-family: var(--font-sans);
+  font-weight: var(--weight-semibold);
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+.bp-ghost:hover { color: var(--text-secondary); }
+
+/* Text link — terracotta, inline */
+.bp-link {
+  appearance: none; border: none; background: none; cursor: pointer; padding: 0;
+  color: var(--action);
+  font-family: var(--font-sans);
+  font-weight: var(--weight-bold);
+  font-size: var(--text-ui);
+  display: inline-flex; align-items: center; gap: 5px;
+  white-space: nowrap;
+}
+.bp-link:hover { color: var(--action-hover); }
+
+/* Calm entrance — transform-only so content is ALWAYS readable even if a
+   canvas throttles the animation timeline. Resting opacity stays 1. */
+@media (prefers-reduced-motion: no-preference) {
+  .bp-rise { animation: bpRise var(--dur-rise) var(--ease-settle) both; }
+  .bp-rise.d1 { animation-delay: 0.04s; }
+  .bp-rise.d2 { animation-delay: 0.14s; }
+  .bp-rise.d3 { animation-delay: 0.26s; }
+  .bp-rise.d4 { animation-delay: 0.38s; }
+  .bp-rise.d5 { animation-delay: 0.52s; }
+  @keyframes bpRise {
+    from { transform: translateY(12px); }
+    to   { transform: none; }
+  }
+}

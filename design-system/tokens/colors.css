@@ -1,0 +1,60 @@
+/* Soulful Backpack — color tokens.
+   Sampled from the live product. Warm paper, terracotta, deep sage, deep coral,
+   warm ink. Two layers: raw brand values, then semantic aliases. Build UI
+   against the SEMANTIC names so a future re-theme touches only this file. */
+
+:root {
+  /* ── Raw brand palette ───────────────────────────────── */
+  /* Surfaces (warm paper, never pure white page) */
+  --paper:        #f8f1e9;   /* page — warm blush paper */
+  --sand:         #f1e7da;   /* deeper sand — fields, sections */
+  --sand-deep:    #ece0d0;   /* pressed / disabled fills */
+  --white:        #ffffff;   /* cards only */
+
+  /* Ink — the warm "missing dark" */
+  --ink-900:      #221b17;   /* primary text, numbers */
+  --ink-600:      #5d534b;   /* secondary text */
+  --ink-400:      #8c7f74;   /* taupe labels, captions */
+
+  /* Terracotta — the brand's one warm signal (action, link, focus) */
+  --terracotta:       #bd6a3c;
+  --terracotta-deep:  #a4572e;   /* hover / pressed */
+  --terracotta-tint:  #f3ddcb;   /* wash behind terracotta */
+
+  /* Semantic hues — each earns its place, never decorative */
+  --coral:        #b23a2c;   /* spend / alert / destructive */
+  --coral-tint:   #f4dcd6;
+  --sage:         #2e7a4d;   /* positive / gains / done */
+  --sage-soft:    #d3e0d4;   /* chips, soft fills */
+  --sage-tint:    #e7efe6;   /* wash behind sage */
+  --gold:         #c79431;   /* waiting / in-between */
+  --gold-tint:    #f0e3cf;
+  --pink:         #f6d7d1;   /* pale pink — tints ONLY, never text */
+
+  /* Hairlines */
+  --line:         rgba(34, 27, 23, 0.10);
+  --line-soft:    rgba(34, 27, 23, 0.06);
+
+  /* ── Semantic aliases (build against these) ──────────── */
+  --bg:            var(--paper);
+  --bg-sunk:       var(--sand);
+  --bg-pressed:    var(--sand-deep);
+  --surface-card:  var(--white);
+
+  --text-primary:    var(--ink-900);
+  --text-secondary:  var(--ink-600);
+  --text-muted:      var(--ink-400);
+  --text-on-accent:  #ffffff;
+
+  --action:          var(--terracotta);
+  --action-hover:    var(--terracotta-deep);
+  --action-wash:     var(--terracotta-tint);
+  --focus-ring:      var(--terracotta);
+
+  --positive:        var(--sage);
+  --negative:        var(--coral);
+  --waiting:         var(--gold);
+
+  --border:          var(--line);
+  --border-soft:     var(--line-soft);
+}

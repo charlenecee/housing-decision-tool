@@ -11,7 +11,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Housing Decision Dashboard</title>
+  <title>Housing Decision Dashboard · Soulful Backpack</title>
 
   <!-- Google Analytics 4 -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-RR9HCPSN1L"></script>
@@ -23,273 +23,790 @@
   </script>
 
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+
+  <!-- Font preconnect hints (fonts loaded by design-system/tokens/fonts.css) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <!-- Soulful Backpack design system: fonts, tokens, base utilities -->
+  <link rel="stylesheet" href="design-system/styles.css">
+
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    :root {
-      --bg:           #f1f5f9;
-      --card:         #ffffff;
-      --border:       #e2e8f0;
-      --text:         #0f172a;
-      --muted:        #64748b;
-      --conservative: #ef4444;
-      --balanced:     #d97706;
-      --best:         #10b981;
-      --blue:         #3b82f6;
-      --radius:       14px;
-      --shadow:       0 1px 3px rgba(0,0,0,0.07), 0 4px 16px rgba(0,0,0,0.05);
+    /* Override browser blue focus ring with brand taupe */
+    :focus-visible {
+      outline: 2px solid var(--taupe);
+      outline-offset: 2px;
     }
 
-    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.5; min-height: 100vh; }
+    /* ── Project action override: mushroom taupe replaces terracotta ── */
+    :root {
+      --taupe:         #7c6f64;
+      --taupe-deep:    #6a5e54;
+      --taupe-tint:    #ece8e4;
+      --action:        var(--taupe);
+      --action-hover:  var(--taupe-deep);
+      --action-wash:   var(--taupe-tint);
+      --focus-ring:    var(--taupe);
+      --shadow-action: 0 6px 18px rgba(124, 111, 100, 0.28);
+      --action-faint:  rgba(124, 111, 100, 0.16);
+    }
+
+    /* ── Base ── */
+    body {
+      font-family: var(--font-sans);
+      background: var(--bg);
+      color: var(--text-primary);
+      line-height: var(--leading-body);
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
 
     /* ── Header ── */
-    .header { background: linear-gradient(135deg, #0f172a 0%, #1a3a5c 60%, #0f2744 100%); color: #fff; padding: 48px 24px 40px; text-align: center; }
-    .route-pill { display: inline-flex; align-items: center; gap: 10px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.18); border-radius: 100px; padding: 7px 18px; font-size: 13px; font-weight: 500; margin-bottom: 18px; }
-    .route-pill .arrow { opacity: 0.5; }
-    .header h1 { font-size: 30px; font-weight: 700; letter-spacing: -0.6px; margin-bottom: 8px; }
-    .header p { font-size: 15px; opacity: 0.6; }
+    .header {
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+      padding: 24px var(--space-5) 22px;
+    }
+    .header-inner { max-width: 1120px; margin: 0 auto; }
+    .header-logo  { height: 26px; display: block; margin-bottom: 18px; }
+
+    .header-kicker {
+      font-family: var(--font-sans);
+      font-size: var(--text-kicker);
+      font-weight: var(--weight-bold);
+      text-transform: uppercase;
+      letter-spacing: var(--tracking-kicker);
+      color: var(--text-muted);
+      margin-bottom: 6px;
+    }
+    .header h1 {
+      font-family: var(--font-serif);
+      font-size: var(--text-display);
+      font-weight: var(--weight-medium);
+      color: var(--text-primary);
+      line-height: var(--leading-tight);
+      margin-bottom: 5px;
+    }
+    .header-sub { font-size: var(--text-body); color: var(--text-muted); }
 
     /* ── Layout ── */
-    .main { max-width: 1120px; margin: 0 auto; padding: 36px 24px 48px; }
-    .section-label { font-size: 11px; font-weight: 700; letter-spacing: 0.09em; text-transform: uppercase; color: var(--muted); margin-bottom: 14px; margin-top: 36px; }
+    .main {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: var(--space-6) var(--space-5) 56px;
+    }
+
+    .section-label {
+      font-family: var(--font-sans);
+      font-size: var(--text-kicker);
+      font-weight: var(--weight-bold);
+      letter-spacing: var(--tracking-kicker);
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 14px;
+      margin-top: var(--space-6);
+    }
     .section-label:first-child { margin-top: 0; }
-    .card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); }
+
+    .card {
+      background: var(--surface-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-card);
+      box-shadow: var(--shadow-card);
+    }
 
     /* ── Onboarding ── */
-    .onboarding-card { background: linear-gradient(135deg, #f0f9ff 0%, #f0fdf4 100%); border: 1.5px solid #bae6fd; border-radius: var(--radius); padding: 36px; margin-bottom: 8px; box-shadow: var(--shadow); }
-    .onboarding-title { font-size: 22px; font-weight: 700; margin-bottom: 8px; }
-    .onboarding-subtitle { font-size: 14px; color: var(--muted); line-height: 1.7; max-width: 640px; }
-    .onboarding-steps { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 24px 0 28px; }
-    .onboarding-step { display: flex; gap: 12px; align-items: flex-start; background: rgba(255,255,255,0.75); border: 1px solid rgba(186,230,253,0.6); border-radius: 10px; padding: 14px 16px; }
-    .step-num { width: 26px; height: 26px; border-radius: 50%; background: var(--blue); color: #fff; font-size: 12px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
-    .step-text strong { display: block; font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 2px; }
-    .step-text span { font-size: 12px; color: var(--muted); line-height: 1.5; }
-    .onboarding-footer { display: flex; align-items: center; gap: 16px; }
-    .onboarding-btn { padding: 10px 24px; background: var(--blue); color: #fff; border: none; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; transition: background 0.15s; }
-    .onboarding-btn:hover { background: #2563eb; }
-    .onboarding-tip { font-size: 12px; color: var(--muted); }
+    .onboarding-card {
+      background: var(--surface-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-card);
+      padding: var(--space-6);
+      margin-bottom: var(--space-4);
+      box-shadow: var(--shadow-card);
+    }
+    .onboarding-kicker {
+      font-family: var(--font-sans);
+      font-size: var(--text-kicker);
+      font-weight: var(--weight-bold);
+      text-transform: uppercase;
+      letter-spacing: var(--tracking-kicker);
+      color: var(--action);
+      margin-bottom: var(--space-3);
+    }
+    .onboarding-title {
+      font-family: var(--font-serif);
+      font-size: var(--text-h2);
+      font-weight: var(--weight-semibold);
+      color: var(--text-primary);
+      margin-bottom: 10px;
+    }
+    .onboarding-subtitle {
+      font-family: var(--font-serif);
+      font-size: var(--text-prompt);
+      color: var(--text-secondary);
+      line-height: var(--leading-body);
+      max-width: 600px;
+      margin-bottom: var(--space-5);
+    }
+    .onboarding-steps {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      margin-bottom: var(--space-5);
+      border-top: 1px solid var(--border-soft);
+    }
+    .onboarding-step {
+      display: flex;
+      gap: var(--space-3);
+      align-items: flex-start;
+      padding: var(--space-4) var(--space-4) var(--space-4) 0;
+      border-bottom: 1px solid var(--border-soft);
+    }
+    .onboarding-step:nth-child(even) {
+      padding-left: var(--space-4);
+      border-left: 1px solid var(--border-soft);
+    }
+    .step-num {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--bg-sunk);
+      color: var(--text-secondary);
+      font-family: var(--font-serif);
+      font-size: var(--text-caption);
+      font-weight: var(--weight-semibold);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+    .step-text strong {
+      display: block;
+      font-family: var(--font-sans);
+      font-size: var(--text-label);
+      font-weight: var(--weight-bold);
+      color: var(--text-primary);
+      margin-bottom: 3px;
+    }
+    .step-text span {
+      font-size: var(--text-caption);
+      color: var(--text-secondary);
+      line-height: 1.5;
+    }
+    .onboarding-footer { display: flex; align-items: center; gap: var(--space-4); }
+    .onboarding-tip   { font-size: var(--text-caption); color: var(--text-muted); }
 
-    /* ── Inputs ── */
-    .inputs-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-    .col-span-2 { grid-column: 1 / -1; }
-    .input-card { padding: 22px 24px; }
-    .input-card h3 { font-size: 12px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); margin-bottom: 18px; padding-bottom: 12px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
-    .field { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 11px; }
+    .onboarding-toggle {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      width: 100%;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+      text-align: left;
+    }
+    .onboarding-toggle-text { flex: 1; }
+    .onboarding-chevron {
+      color: var(--text-muted);
+      flex-shrink: 0;
+      transition: transform var(--dur-calm);
+    }
+    .onboarding-card.collapsed .onboarding-chevron { transform: rotate(-90deg); }
+    .onboarding-body { margin-top: var(--space-4); }
+    .onboarding-card.collapsed .onboarding-body { display: none; }
+    .onboarding-card.collapsed { padding: var(--space-4) var(--space-6); }
+
+    /* ── Input grid ── */
+    .inputs-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-4); }
+    .col-span-2  { grid-column: 1 / -1; }
+    .input-card  { padding: var(--space-5); }
+
+    .card-title {
+      font-family: var(--font-serif);
+      font-size: var(--text-h2);
+      font-weight: var(--weight-medium);
+      color: var(--text-primary);
+      margin-bottom: var(--space-5);
+      padding-bottom: var(--space-3);
+      border-bottom: 1px solid var(--border-soft);
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: var(--space-3);
+    }
+    .card-helper {
+      font-family: var(--font-sans);
+      font-size: var(--text-caption);
+      font-weight: var(--weight-regular);
+      color: var(--text-muted);
+    }
+
+    .field {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-3);
+      margin-bottom: var(--space-3);
+    }
     .field:last-child { margin-bottom: 0; }
-    label { font-size: 13px; color: var(--text); flex: 1; white-space: nowrap; }
-    .input-wrap { display: flex; align-items: center; background: #f8fafc; border: 1.5px solid var(--border); border-radius: 8px; overflow: hidden; width: 138px; flex-shrink: 0; transition: border-color 0.15s, box-shadow 0.15s; }
-    .input-wrap:focus-within { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(59,130,246,0.13); background: #fff; }
-    .affix { padding: 0 9px; font-size: 13px; font-weight: 500; color: var(--muted); background: #f1f5f9; height: 36px; display: flex; align-items: center; user-select: none; }
-    .affix.right { border-left: 1.5px solid var(--border); }
-    .affix.left  { border-right: 1.5px solid var(--border); }
-    .input-wrap input { width: 100%; border: none; background: transparent; padding: 0 8px; height: 36px; font-size: 13px; font-weight: 600; color: var(--text); outline: none; -moz-appearance: textfield; min-width: 0; }
-    .input-wrap input::-webkit-outer-spin-button, .input-wrap input::-webkit-inner-spin-button { -webkit-appearance: none; }
+    .field-label  { font-family: var(--font-sans); font-size: var(--text-label); color: var(--text-secondary); flex: 1; white-space: nowrap; }
+    .field-helper { color: var(--text-muted); font-size: var(--text-caption); }
+
+    .input-wrap {
+      display: flex;
+      align-items: center;
+      background: var(--bg-sunk);
+      border: 1.5px solid transparent;
+      border-radius: var(--radius-input);
+      overflow: hidden;
+      width: 142px;
+      flex-shrink: 0;
+      transition: border-color var(--dur-quick), background var(--dur-quick);
+    }
+    .input-wrap:focus-within { border-color: var(--focus-ring); background: var(--surface-card); }
+
+    .affix {
+      padding: 0 9px;
+      font-family: var(--font-sans);
+      font-size: var(--text-caption);
+      font-weight: var(--weight-medium);
+      color: var(--text-muted);
+      height: 38px;
+      display: flex;
+      align-items: center;
+      user-select: none;
+      flex-shrink: 0;
+    }
+    .affix.right { border-left: 1px solid var(--border); }
+    .affix.left  { border-right: 1px solid var(--border); }
+
+    .input-wrap input {
+      width: 100%;
+      border: none;
+      background: transparent;
+      padding: 0 var(--space-2);
+      height: 38px;
+      font-family: var(--font-serif);
+      font-size: var(--text-label);
+      font-weight: var(--weight-medium);
+      color: var(--text-primary);
+      outline: none;
+      -moz-appearance: textfield;
+      min-width: 0;
+    }
+    .input-wrap input::-webkit-outer-spin-button,
+    .input-wrap input::-webkit-inner-spin-button { -webkit-appearance: none; }
 
     /* ── Location row ── */
-    .location-row { display: grid; grid-template-columns: 1fr auto 1fr; gap: 16px; align-items: end; }
-    .loc-field { display: flex; flex-direction: column; gap: 7px; }
-    .loc-label { font-size: 11px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); }
-    .loc-arrow { font-size: 22px; color: var(--muted); text-align: center; padding-bottom: 2px; }
-    .text-input-wrap { display: flex; align-items: center; background: #f8fafc; border: 1.5px solid var(--border); border-radius: 8px; overflow: hidden; transition: border-color 0.15s, box-shadow 0.15s; }
-    .text-input-wrap:focus-within { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(59,130,246,0.13); background: #fff; }
-    .text-input-wrap input { width: 100%; border: none; background: transparent; padding: 0 12px; height: 38px; font-size: 13px; font-weight: 500; color: var(--text); outline: none; }
+    .location-row {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      gap: var(--space-4);
+      align-items: end;
+      margin-bottom: var(--space-4);
+    }
+    .loc-field { display: flex; flex-direction: column; gap: 6px; }
+    .loc-label {
+      font-family: var(--font-sans);
+      font-size: var(--text-kicker);
+      font-weight: var(--weight-bold);
+      letter-spacing: var(--tracking-kicker);
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+    .loc-arrow { font-size: 18px; color: var(--text-muted); text-align: center; padding-bottom: 4px; }
 
-    /* ── Saved paths ── */
-    .paths-bar { display: flex; align-items: center; gap: 10px; padding-top: 16px; margin-top: 16px; border-top: 1px solid var(--border); flex-wrap: wrap; }
-    .save-btn { display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px; background: var(--blue); color: #fff; border: none; border-radius: 8px; font-size: 12px; font-weight: 600; cursor: pointer; flex-shrink: 0; transition: background 0.15s; }
-    .save-btn:hover { background: #2563eb; }
-    .paths-empty { font-size: 12px; color: var(--muted); font-style: italic; }
-    .path-chip { display: inline-flex; align-items: center; gap: 6px; background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 100px; padding: 5px 8px 5px 12px; font-size: 12px; font-weight: 500; color: #1d4ed8; cursor: pointer; white-space: nowrap; transition: background 0.15s; }
-    .path-chip:hover { background: #dbeafe; }
-    .path-chip .chip-del { width: 18px; height: 18px; border-radius: 50%; background: rgba(29,78,216,0.12); border: none; display: inline-flex; align-items: center; justify-content: center; font-size: 11px; color: #1d4ed8; cursor: pointer; flex-shrink: 0; transition: all 0.15s; line-height: 1; padding: 0; }
-    .path-chip .chip-del:hover { background: #ef4444; color: #fff; }
+    .text-input-wrap {
+      display: flex;
+      align-items: center;
+      background: var(--bg-sunk);
+      border: 1.5px solid transparent;
+      border-radius: var(--radius-input);
+      overflow: hidden;
+      transition: border-color var(--dur-quick), background var(--dur-quick);
+    }
+    .text-input-wrap:focus-within { border-color: var(--focus-ring); background: var(--surface-card); }
+    .text-input-wrap input {
+      width: 100%;
+      border: none;
+      background: transparent;
+      padding: 0 var(--space-3);
+      height: 42px;
+      font-family: var(--font-sans);
+      font-size: var(--text-label);
+      font-weight: var(--weight-medium);
+      color: var(--text-primary);
+      outline: none;
+      caret-color: var(--action);
+    }
+    .text-input-wrap input::placeholder { color: var(--text-muted); }
+
+    /* ── Save path button ── */
+    .save-path-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 0 22px;
+      height: 42px;
+      font-family: var(--font-sans);
+      font-size: var(--text-ui);
+      font-weight: var(--weight-bold);
+      color: var(--action);
+      background: transparent;
+      border: 1.5px solid var(--action);
+      border-radius: var(--radius-pill);
+      cursor: pointer;
+      white-space: nowrap;
+      flex-shrink: 0;
+      transition: background var(--dur-quick);
+    }
+    .save-path-btn:hover { background: var(--action-wash); }
+
+    /* ── Share card ── */
+    .share-card { overflow: hidden; }
+    .share-block { padding: var(--space-5); }
+    .share-block + .share-block { border-top: 1px solid var(--border-soft); }
+    .share-block-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: var(--space-4);
+      margin-bottom: var(--space-3);
+    }
+    .share-desc {
+      font-size: var(--text-body);
+      color: var(--text-secondary);
+      margin-bottom: var(--space-3);
+    }
+    .saved-paths-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-2);
+      min-height: 28px;
+      align-items: center;
+    }
+    .paths-empty { font-size: var(--text-caption); color: var(--text-muted); font-style: italic; white-space: nowrap; }
+
+    .path-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--action-wash);
+      border: 1px solid var(--action-faint);
+      border-radius: var(--radius-pill);
+      padding: 5px 8px 5px 12px;
+      font-size: var(--text-caption);
+      font-weight: var(--weight-semibold);
+      color: var(--action);
+      cursor: pointer;
+      white-space: nowrap;
+      transition: background var(--dur-quick);
+    }
+    .path-chip:hover { background: var(--taupe-tint); }
+    .path-chip .chip-del {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: var(--action-faint);
+      border: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      color: var(--action);
+      cursor: pointer;
+      flex-shrink: 0;
+      transition: all var(--dur-quick);
+      line-height: 1;
+      padding: 0;
+    }
+    .path-chip .chip-del:hover { background: var(--negative); color: var(--text-on-accent); }
 
     /* ── Apartment list ── */
-    .apt-list { display: flex; flex-direction: column; gap: 8px; }
-    .apt-row { display: flex; align-items: center; gap: 10px; }
-    .apt-color { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; }
-    .apt-name-wrap { flex: 1; display: flex; align-items: center; background: #f8fafc; border: 1.5px solid var(--border); border-radius: 8px; overflow: hidden; min-width: 0; transition: border-color 0.15s, box-shadow 0.15s; }
-    .apt-name-wrap:focus-within { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(59,130,246,0.13); background: #fff; }
-    .apt-name-wrap input { width: 100%; border: none; background: transparent; padding: 0 12px; height: 36px; font-size: 13px; font-weight: 500; color: var(--text); outline: none; }
-    .apt-rent-wrap { width: 140px; flex-shrink: 0; }
-    .icon-btn { width: 34px; height: 34px; border-radius: 8px; border: 1.5px solid var(--border); background: #fff; color: var(--muted); font-size: 18px; line-height: 1; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: all 0.15s; }
-    .icon-btn:hover { background: #fef2f2; color: var(--conservative); border-color: #fca5a5; }
-    .add-apt-btn { margin-top: 10px; display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; padding: 9px; background: transparent; border: 1.5px dashed var(--border); border-radius: 8px; font-size: 13px; font-weight: 600; color: var(--muted); cursor: pointer; transition: all 0.15s; }
-    .add-apt-btn:hover { background: #eff6ff; color: var(--blue); border-color: var(--blue); }
+    .apt-list { display: flex; flex-direction: column; }
+    .apt-row {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      padding: var(--space-2) 0;
+      border-bottom: 1px solid var(--border-soft);
+    }
+    .apt-row:last-child { border-bottom: none; }
+    .apt-color { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+
+    .apt-name-wrap {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      background: var(--bg-sunk);
+      border: 1.5px solid transparent;
+      border-radius: var(--radius-input);
+      overflow: hidden;
+      min-width: 0;
+      transition: border-color var(--dur-quick), background var(--dur-quick);
+    }
+    .apt-name-wrap:focus-within { border-color: var(--focus-ring); background: var(--surface-card); }
+    .apt-name-wrap input {
+      width: 100%;
+      border: none;
+      background: transparent;
+      padding: 0 var(--space-3);
+      height: 38px;
+      font-family: var(--font-sans);
+      font-size: var(--text-label);
+      font-weight: var(--weight-medium);
+      color: var(--text-primary);
+      outline: none;
+      caret-color: var(--action);
+    }
+    .apt-name-wrap input::placeholder { color: var(--text-muted); }
+    .apt-rent-wrap { width: 148px; flex-shrink: 0; }
+
+    .icon-btn {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      border: none;
+      background: transparent;
+      color: var(--text-muted);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: color var(--dur-quick);
+    }
+    .icon-btn:hover { color: var(--negative); }
+
+    .add-apt-btn {
+      margin-top: var(--space-3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-2);
+      width: 100%;
+      padding: 11px;
+      background: transparent;
+      border: 1.5px dashed var(--action);
+      border-radius: var(--radius-input);
+      font-family: var(--font-sans);
+      font-size: var(--text-ui);
+      font-weight: var(--weight-bold);
+      color: var(--action);
+      cursor: pointer;
+      transition: background var(--dur-quick);
+    }
+    .add-apt-btn:hover { background: var(--action-wash); }
 
     /* ── Comparison table ── */
     .table-card { overflow: hidden; }
+    .table-card-header { padding: var(--space-5) var(--space-5) 0; }
+    .table-card-title {
+      font-family: var(--font-serif);
+      font-size: var(--text-h1);
+      font-weight: var(--weight-semibold);
+      color: var(--text-primary);
+      margin-bottom: var(--space-5);
+    }
     .table-scroll { overflow-x: auto; }
     table { width: 100%; border-collapse: collapse; }
-    thead tr.header-row th { padding: 16px 20px 10px; font-size: 12px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; border-bottom: 1px solid var(--border); }
-    thead tr.header-row th:first-child { text-align: left; color: var(--muted); }
+
+    thead tr.header-row th {
+      padding: var(--space-3) var(--space-5) var(--space-2);
+      font-family: var(--font-sans);
+      font-size: var(--text-kicker);
+      font-weight: var(--weight-bold);
+      letter-spacing: var(--tracking-kicker);
+      text-transform: uppercase;
+      border-bottom: 1px solid var(--border);
+    }
+    thead tr.header-row th:first-child { text-align: left; color: var(--text-muted); }
     thead tr.header-row th:not(:first-child) { text-align: right; }
-    th.col-c { color: var(--conservative); }
-    th.col-b { color: var(--balanced); }
-    th.col-x { color: var(--best); }
-    thead tr.subhead-row td { padding: 6px 20px 12px; font-size: 11px; color: var(--muted); border-bottom: 2px solid var(--border); }
+    th.col-c { color: var(--negative); }
+    th.col-b { color: var(--waiting); }
+    th.col-x { color: var(--positive); }
+
+    thead tr.subhead-row td {
+      padding: 5px var(--space-5) var(--space-3);
+      font-family: var(--font-sans);
+      font-size: var(--text-caption);
+      color: var(--text-muted);
+      border-bottom: 2px solid var(--border);
+    }
     thead tr.subhead-row td:not(:first-child) { text-align: right; }
-    tbody tr { border-bottom: 1px solid var(--border); transition: background 0.1s; }
+
+    tbody tr { border-bottom: 1px solid var(--border-soft); transition: background var(--dur-quick); }
     tbody tr:last-child { border-bottom: none; }
-    tbody tr:hover { background: #f8fafc; }
-    td.name-td { padding: 18px 20px; }
-    .apt-label { font-weight: 700; font-size: 14px; display: flex; align-items: center; gap: 8px; }
-    .apt-label .dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
-    .apt-rent-label { font-size: 12px; color: var(--muted); margin-top: 2px; padding-left: 18px; }
-    td.val-td { padding: 18px 20px; text-align: right; vertical-align: middle; }
-    .net-val { font-size: 22px; font-weight: 800; letter-spacing: -0.5px; display: block; }
-    .net-val.red   { color: var(--conservative); }
-    .net-val.amber { color: var(--balanced); }
-    .net-val.green { color: var(--best); }
-    .best-badge { display: inline-flex; align-items: center; gap: 3px; font-size: 10px; font-weight: 700; background: #dcfce7; color: #166534; border-radius: 5px; padding: 2px 7px; margin-top: 4px; }
-    .table-empty { padding: 48px; text-align: center; color: var(--muted); }
+    tbody tr:hover { background: var(--bg-sunk); }
+
+    td.name-td { padding: var(--space-4) var(--space-5); }
+    .apt-label {
+      font-family: var(--font-sans);
+      font-weight: var(--weight-bold);
+      font-size: var(--text-label);
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+    }
+    .apt-label .dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+    .apt-rent-label {
+      font-family: var(--font-serif);
+      font-size: var(--text-caption);
+      color: var(--text-muted);
+      margin-top: 3px;
+      padding-left: 16px;
+    }
+
+    td.val-td { padding: var(--space-4) var(--space-5); text-align: right; vertical-align: middle; }
+    .net-val {
+      font-family: var(--font-serif);
+      font-size: var(--text-quote);
+      font-weight: var(--weight-medium);
+      letter-spacing: var(--tracking-tight);
+      display: block;
+    }
+    .net-val.positive { color: var(--positive); }
+    .net-val.negative { color: var(--negative); }
+    .net-val.neutral  { color: var(--text-muted); }
+
+    .best-badge {
+      display: inline-flex;
+      align-items: center;
+      font-family: var(--font-sans);
+      font-size: 10px;
+      font-weight: var(--weight-bold);
+      background: var(--sage-tint);
+      color: var(--positive);
+      border-radius: var(--radius-pill);
+      padding: 2px 8px;
+      margin-top: 4px;
+    }
+    .table-empty {
+      padding: 48px;
+      text-align: center;
+      font-size: var(--text-body);
+      color: var(--text-muted);
+    }
 
     /* ── Chart ── */
-    .chart-card { padding: 28px 28px 24px; }
-    .chart-card h3 { font-size: 16px; font-weight: 700; margin-bottom: 4px; }
-    .chart-sub { font-size: 13px; color: var(--muted); margin-bottom: 26px; }
+    .chart-card { padding: var(--space-5); }
+    .chart-title {
+      font-family: var(--font-serif);
+      font-size: var(--text-h2);
+      font-weight: var(--weight-medium);
+      color: var(--text-primary);
+      margin-bottom: 5px;
+    }
+    .chart-sub {
+      font-family: var(--font-sans);
+      font-size: var(--text-caption);
+      color: var(--text-muted);
+      margin-bottom: var(--space-6);
+    }
     .chart-wrap { position: relative; height: 320px; }
 
     /* ── Email ── */
-    .email-card { padding: 24px; }
-    .email-card h3 { font-size: 15px; font-weight: 700; margin-bottom: 4px; }
-    .email-card p { font-size: 13px; color: var(--muted); margin-bottom: 16px; }
-    .email-row { display: flex; gap: 10px; align-items: stretch; }
-    .email-input-wrap { flex: 1; display: flex; align-items: center; background: #f8fafc; border: 1.5px solid var(--border); border-radius: 8px; overflow: hidden; transition: border-color 0.15s, box-shadow 0.15s; }
-    .email-input-wrap:focus-within { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(59,130,246,0.13); background: #fff; }
-    .email-input-wrap.error { border-color: var(--conservative); }
-    .email-input-wrap input { width: 100%; border: none; background: transparent; padding: 0 14px; height: 40px; font-size: 14px; color: var(--text); outline: none; }
-    .email-send-btn { padding: 0 22px; height: 40px; background: var(--blue); color: #fff; border: none; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer; white-space: nowrap; transition: background 0.15s; flex-shrink: 0; }
-    .email-send-btn:hover { background: #2563eb; }
-    .email-note { font-size: 11px; color: var(--muted); margin-top: 10px; }
+    .email-card { padding: var(--space-5); }
+    .email-title {
+      font-family: var(--font-serif);
+      font-size: var(--text-h2);
+      font-weight: var(--weight-medium);
+      color: var(--text-primary);
+      margin-bottom: 6px;
+    }
+    .email-body { font-size: var(--text-body); color: var(--text-secondary); margin-bottom: var(--space-4); }
+    .email-row  { display: flex; gap: var(--space-2); align-items: stretch; }
 
-    /* ── Footer ── */
-    .footer-note { display: flex; gap: 12px; background: #fffbeb; border: 1px solid #fde68a; border-radius: var(--radius); padding: 16px 20px; font-size: 13px; color: #78350f; line-height: 1.6; margin-top: 16px; }
-    .footer-note .icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+    .email-input-wrap {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      background: var(--bg-sunk);
+      border: 1.5px solid transparent;
+      border-radius: var(--radius-input);
+      overflow: hidden;
+      transition: border-color var(--dur-quick), background var(--dur-quick);
+    }
+    .email-input-wrap:focus-within { border-color: var(--focus-ring); background: var(--surface-card); }
+    .email-input-wrap.error { border-color: var(--negative); }
+    .email-input-wrap input {
+      width: 100%;
+      border: none;
+      background: transparent;
+      padding: 0 var(--space-4);
+      height: 42px;
+      font-family: var(--font-sans);
+      font-size: var(--text-label);
+      color: var(--text-primary);
+      outline: none;
+    }
 
+    .email-send-btn {
+      padding: 0 22px;
+      height: 42px;
+      background: transparent;
+      color: var(--action);
+      border: 1.5px solid var(--action);
+      border-radius: var(--radius-pill);
+      font-family: var(--font-sans);
+      font-size: var(--text-ui);
+      font-weight: var(--weight-bold);
+      cursor: pointer;
+      white-space: nowrap;
+      flex-shrink: 0;
+      transition: background var(--dur-quick);
+    }
+    .email-send-btn:hover { background: var(--action-wash); }
+    .email-note { font-family: var(--font-sans); font-size: var(--text-caption); color: var(--text-muted); margin-top: var(--space-2); }
+
+    /* ── Footer callout ── */
+    .footer-note {
+      background: var(--action-wash);
+      border-left: 3px solid var(--action);
+      border-radius: var(--radius-input);
+      padding: var(--space-4) var(--space-5);
+      font-family: var(--font-sans);
+      font-size: var(--text-body);
+      color: var(--text-secondary);
+      line-height: var(--leading-body);
+      margin-top: var(--space-4);
+    }
+
+    /* ── Responsive ── */
     @media (max-width: 820px) {
-      .inputs-grid { grid-template-columns: 1fr; }
-      .location-row { grid-template-columns: 1fr; }
-      .loc-arrow { display: none; }
-      .onboarding-steps { grid-template-columns: 1fr; }
-      .header h1 { font-size: 22px; }
-      .net-val { font-size: 18px; }
+      .inputs-grid         { grid-template-columns: 1fr; }
+      .location-row        { grid-template-columns: 1fr; }
+      .loc-arrow           { display: none; }
+      .onboarding-steps    { grid-template-columns: 1fr; }
+      .header h1           { font-size: 22px; }
+      .net-val             { font-size: 18px; }
     }
 
     /* ── Mobile: table → stacked per-apartment cards ── */
     @media (max-width: 640px) {
-      /* unwrap the card shell so each row becomes its own card */
-      .table-card { overflow: visible; background: transparent; border: none; box-shadow: none; }
+      .table-card   { overflow: visible; background: transparent; border: none; box-shadow: none; }
       .table-scroll { overflow-x: visible; }
+      table, tbody  { display: block; }
+      thead         { display: none; }
 
-      table, tbody { display: block; }
-      thead { display: none; }
-
-      /* each row becomes a card */
       tbody tr {
         display: block;
-        background: var(--card);
+        background: var(--surface-card);
         border: 1px solid var(--border);
-        border-radius: var(--radius);
-        box-shadow: var(--shadow);
-        margin-bottom: 10px;
+        border-radius: var(--radius-card);
+        box-shadow: var(--shadow-card);
+        margin-bottom: var(--space-2);
         overflow: hidden;
       }
-      tbody tr:last-child { border-bottom: 1px solid var(--border); margin-bottom: 0; }
-      tbody tr:hover { background: var(--card); }
+      tbody tr:last-child  { border-bottom: 1px solid var(--border); margin-bottom: 0; }
+      tbody tr:hover       { background: var(--surface-card); }
 
-      /* apartment name sits at the top of each card */
-      td.name-td { display: block; background: #f8fafc; border-bottom: 2px solid var(--border); padding: 14px 16px; }
-
-      /* value rows: label on the left, number on the right */
+      td.name-td {
+        display: block;
+        background: var(--bg-sunk);
+        border-bottom: 2px solid var(--border);
+        padding: var(--space-3) var(--space-4);
+      }
       td, td.val-td {
         display: flex;
         align-items: center;
         justify-content: space-between;
         text-align: right;
-        padding: 11px 16px;
-        border-bottom: 1px solid var(--border);
+        padding: var(--space-3) var(--space-4);
+        border-bottom: 1px solid var(--border-soft);
       }
       td.val-td:last-child { border-bottom: none; }
-
-      /* inject the column name from data-label */
       td.val-td::before {
         content: attr(data-label);
-        font-size: 11px;
-        font-weight: 700;
+        font-family: var(--font-sans);
+        font-size: var(--text-kicker);
+        font-weight: var(--weight-bold);
         text-transform: uppercase;
-        letter-spacing: 0.06em;
+        letter-spacing: var(--tracking-kicker);
         flex-shrink: 0;
         text-align: left;
       }
-      td.val-td:nth-child(2)::before { color: var(--conservative); }
-      td.val-td:nth-child(3)::before { color: var(--balanced); }
-      td.val-td:nth-child(4)::before { color: var(--best); }
-
-      .net-val { font-size: 16px; }
-      .table-empty { display: block; padding: 32px 16px; font-size: 13px; }
+      td.val-td:nth-child(2)::before { color: var(--negative); }
+      td.val-td:nth-child(3)::before { color: var(--waiting); }
+      td.val-td:nth-child(4)::before { color: var(--positive); }
+      .net-val    { font-size: 16px; }
+      .table-empty { display: block; padding: 32px var(--space-4); font-size: var(--text-label); }
     }
   </style>
 </head>
 <body>
 
 <header class="header">
-  <div class="route-pill">
-    🏠 <span id="pill-from">Your Home</span> <span class="arrow">→</span> <span id="pill-to">New Location</span>
+  <div class="header-inner">
+    <img src="soulful-backpack-logo.png" alt="Soulful Backpack" class="header-logo">
+    <p class="header-kicker"><span id="pill-from">Your Home</span> → <span id="pill-to">New Location</span></p>
+    <h1>Housing Decision Dashboard</h1>
+    <p class="header-sub">Rent out your home · Compare places · See your monthly picture</p>
   </div>
-  <h1>Housing Decision Dashboard</h1>
-  <p>Rent out your home · Compare apartments · See your monthly picture</p>
 </header>
 
 <main class="main">
 
-  <!-- ── Onboarding (first-time visitors only) ── -->
-  <div id="onboarding" class="onboarding-card" style="display:none">
-    <h2 class="onboarding-title">👋 Welcome to the Housing Decision Dashboard</h2>
-    <p class="onboarding-subtitle">This tool calculates your monthly cash flow when you rent out your current home and move somewhere new. Fill in your numbers and compare apartments side by side across three financial scenarios.</p>
-    <div class="onboarding-steps">
-      <div class="onboarding-step">
-        <div class="step-num">1</div>
-        <div class="step-text">
-          <strong>Enter your locations</strong>
-          <span>Where you own a home now, and the area you want to move to.</span>
+  <!-- ── How it works (collapsible) ── -->
+  <div id="onboarding" class="onboarding-card bp-rise">
+    <button class="onboarding-toggle" onclick="toggleOnboarding()" aria-expanded="true" aria-controls="onboarding-body">
+      <div class="onboarding-toggle-text">
+        <p class="onboarding-kicker">Help Me Move</p>
+        <h2 class="onboarding-title">How this dashboard works</h2>
+      </div>
+      <svg class="onboarding-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+    </button>
+    <div class="onboarding-body" id="onboarding-body">
+      <p class="onboarding-subtitle">Let's see what your monthly picture looks like if you rent out your home and move. Add your numbers, then compare places side by side.</p>
+      <div class="onboarding-steps">
+        <div class="onboarding-step">
+          <div class="step-num">1</div>
+          <div class="step-text">
+            <strong>Enter your locations</strong>
+            <span>Where you own a home now, and the area you want to move to.</span>
+          </div>
+        </div>
+        <div class="onboarding-step">
+          <div class="step-num">2</div>
+          <div class="step-text">
+            <strong>Add your home's carrying costs</strong>
+            <span>Mortgage payment, property tax, insurance, and home value.</span>
+          </div>
+        </div>
+        <div class="onboarding-step">
+          <div class="step-num">3</div>
+          <div class="step-text">
+            <strong>Set your rental income range</strong>
+            <span>A low and high estimate for what a tenant would pay each month.</span>
+          </div>
+        </div>
+        <div class="onboarding-step">
+          <div class="step-num">4</div>
+          <div class="step-text">
+            <strong>Add places to compare</strong>
+            <span>Name and monthly rent for each place you're considering moving to.</span>
+          </div>
         </div>
       </div>
-      <div class="onboarding-step">
-        <div class="step-num">2</div>
-        <div class="step-text">
-          <strong>Add your home's carrying costs</strong>
-          <span>Mortgage payment, property tax, insurance, and home value.</span>
-        </div>
+      <div class="onboarding-footer">
+        <button class="bp-btn" onclick="dismissOnboarding()">Get started →</button>
+        <span class="onboarding-tip">Use "Save this path" to preserve your numbers for next time.</span>
       </div>
-      <div class="onboarding-step">
-        <div class="step-num">3</div>
-        <div class="step-text">
-          <strong>Set your rental income range</strong>
-          <span>A low and high estimate for what a tenant would pay each month.</span>
-        </div>
-      </div>
-      <div class="onboarding-step">
-        <div class="step-num">4</div>
-        <div class="step-text">
-          <strong>Add apartments to compare</strong>
-          <span>Name and monthly rent for each place you're considering moving to.</span>
-        </div>
-      </div>
-    </div>
-    <div class="onboarding-footer">
-      <button class="onboarding-btn" onclick="dismissOnboarding()">Get started →</button>
-      <span class="onboarding-tip">💾 Use "Save this path" to preserve your numbers for next time.</span>
     </div>
   </div>
 
   <!-- ── Inputs ── -->
-  <p class="section-label">Your Move</p>
+  <p class="section-label">Your move</p>
   <div class="inputs-grid">
 
-    <!-- Locations — full width, first -->
-    <div class="card input-card col-span-2">
-      <h3>📍 Locations</h3>
+    <!-- Locations — full width -->
+    <div class="card input-card col-span-2 bp-rise d1">
+      <h3 class="card-title">Locations</h3>
       <div class="location-row">
         <div class="loc-field">
           <span class="loc-label">Current home</span>
@@ -305,66 +822,71 @@
           </div>
         </div>
       </div>
-      <div class="paths-bar">
-        <button class="save-btn" onclick="savePath()">+ Save this path</button>
-        <div id="saved-paths-row"></div>
-      </div>
     </div>
 
-    <div class="card input-card">
-      <h3 id="label-carrying">🏡 Your Home — Carrying Costs</h3>
+    <!-- Carrying costs -->
+    <div class="card input-card bp-rise d2">
+      <h3 class="card-title" id="label-carrying">Your home's carrying costs</h3>
       <div class="field">
-        <label>Mortgage (P&amp;I)</label>
+        <label class="field-label">Mortgage (P&amp;I)</label>
         <div class="input-wrap"><span class="affix left">$</span><input type="number" id="mortgage" value="" placeholder="0" min="0" step="50" oninput="recalc()"></div>
       </div>
       <div class="field">
-        <label>Property tax / mo</label>
+        <label class="field-label">Property tax <span class="field-helper">/ mo</span></label>
         <div class="input-wrap"><span class="affix left">$</span><input type="number" id="propTax" value="" placeholder="0" min="0" step="10" oninput="recalc()"></div>
       </div>
       <div class="field">
-        <label>Insurance / mo</label>
+        <label class="field-label">Insurance <span class="field-helper">/ mo</span></label>
         <div class="input-wrap"><span class="affix left">$</span><input type="number" id="insurance" value="" placeholder="0" min="0" step="5" oninput="recalc()"></div>
       </div>
       <div class="field">
-        <label>Home value</label>
+        <label class="field-label">Home value</label>
         <div class="input-wrap"><span class="affix left">$</span><input type="number" id="homeValue" value="" placeholder="0" min="0" step="10000" oninput="recalc()"></div>
       </div>
     </div>
 
-    <div class="card input-card">
-      <h3 id="label-income">💰 Your Home — Rental Income Range</h3>
+    <!-- Rental income range -->
+    <div class="card input-card bp-rise d2">
+      <h3 class="card-title" id="label-income">Your home's rental income range</h3>
       <div class="field">
-        <label>Low estimate <span style="color:var(--muted);font-size:11px">(conservative)</span></label>
+        <label class="field-label">Low estimate <span class="field-helper">(conservative)</span></label>
         <div class="input-wrap"><span class="affix left">$</span><input type="number" id="rentLow" value="" placeholder="0" min="0" step="50" oninput="recalc()"></div>
       </div>
       <div class="field">
-        <label>High estimate <span style="color:var(--muted);font-size:11px">(best case)</span></label>
+        <label class="field-label">High estimate <span class="field-helper">(best case)</span></label>
         <div class="input-wrap"><span class="affix left">$</span><input type="number" id="rentHigh" value="" placeholder="0" min="0" step="50" oninput="recalc()"></div>
       </div>
     </div>
 
     <!-- Apartments — full width -->
-    <div class="card input-card col-span-2">
-      <h3>
-        🏙 Apartments to Compare
-        <span style="font-size:11px;font-weight:500;text-transform:none;letter-spacing:0;color:var(--muted)">Add any apartment you're considering</span>
+    <div class="card input-card col-span-2 bp-rise d3">
+      <h3 class="card-title">
+        Places to compare
+        <span class="card-helper">Add any place you're considering</span>
       </h3>
       <div class="apt-list" id="apt-list"></div>
-      <button class="add-apt-btn" onclick="addApt()">＋ Add apartment</button>
+      <button class="add-apt-btn" onclick="addApt()">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        Add a place
+      </button>
     </div>
 
-    <div class="card input-card">
-      <h3>⚙️ Landlord Assumptions</h3>
+    <!-- Landlord assumptions -->
+    <div class="card input-card bp-rise d4">
+      <h3 class="card-title">
+        Landlord assumptions
+        <span class="card-helper">Defaults are conservative. Adjust if you know your numbers.</span>
+      </h3>
       <div class="field">
-        <label>Vacancy buffer</label>
+        <label class="field-label">Vacancy buffer</label>
         <div class="input-wrap"><input type="number" id="vacancyMo" value="1" min="0" max="12" step="0.5" oninput="recalc()"><span class="affix right">mo/yr</span></div>
       </div>
       <div class="field">
-        <label>Maintenance reserve</label>
+        <label class="field-label">Maintenance reserve</label>
         <div class="input-wrap"><input type="number" id="maintPct" value="1" min="0" max="5" step="0.1" oninput="recalc()"><span class="affix right">%/yr</span></div>
       </div>
       <div class="field">
-        <label>Prop. mgmt fee <span style="color:var(--muted);font-size:11px">(conservative)</span></label>
+        <label class="field-label">Prop. mgmt fee <span class="field-helper">(conservative)</span></label>
         <div class="input-wrap"><input type="number" id="pmRate" value="9" min="0" max="20" step="0.5" oninput="recalc()"><span class="affix right">%</span></div>
       </div>
     </div>
@@ -372,67 +894,85 @@
   </div>
 
   <!-- ── Comparison Table ── -->
-  <p class="section-label">Monthly Cash Flow Comparison</p>
-  <div class="card table-card">
+  <p class="section-label">Results</p>
+  <div class="card table-card bp-rise d3">
+    <div class="table-card-header">
+      <h2 class="table-card-title">Monthly cash flow comparison</h2>
+    </div>
     <div class="table-scroll">
       <table>
         <thead>
           <tr class="header-row">
-            <th style="width:35%">Apartment</th>
+            <th style="width:35%">Place</th>
             <th class="col-c">Conservative</th>
             <th class="col-b">Balanced</th>
             <th class="col-x">Best Case</th>
           </tr>
           <tr class="subhead-row" id="table-subhead">
             <td></td>
-            <td id="sub-c">—</td>
-            <td id="sub-b">—</td>
-            <td id="sub-x">—</td>
+            <td id="sub-c">·</td>
+            <td id="sub-b">·</td>
+            <td id="sub-x">·</td>
           </tr>
         </thead>
         <tbody id="table-body">
-          <tr><td colspan="4" class="table-empty">Add an apartment above to see comparison</td></tr>
+          <tr><td colspan="4" class="table-empty">Add an apartment above to see your comparison.</td></tr>
         </tbody>
       </table>
     </div>
   </div>
 
   <!-- ── Chart ── -->
-  <p class="section-label">Visual Comparison</p>
-  <div class="card chart-card">
-    <h3>Monthly Cash Flow by Apartment &amp; Scenario</h3>
-    <p class="chart-sub">Bars below zero = monthly shortfall · Closer to zero is better · Colors match the three scenarios</p>
+  <p class="section-label">Visual comparison</p>
+  <div class="card chart-card bp-rise d4">
+    <h3 class="chart-title">Monthly cash flow by place and scenario</h3>
+    <p class="chart-sub">Bars below zero are a monthly shortfall. Closer to zero is better. Colors match the three scenarios.</p>
     <div class="chart-wrap"><canvas id="chart"></canvas></div>
   </div>
 
-  <!-- ── Share via Email ── -->
-  <p class="section-label">Share Results</p>
-  <div class="card email-card">
-    <h3>📧 Email This Analysis</h3>
-    <p>Send a formatted summary of your inputs and cash flow results to yourself or a collaborator.</p>
-    <div class="email-row">
-      <div class="email-input-wrap" id="email-wrap">
-        <input type="email" id="emailRecipient" placeholder="recipient@example.com" oninput="clearEmailError()">
+  <!-- ── Save & share ── -->
+  <p class="section-label">Save &amp; share</p>
+  <div class="card share-card bp-rise d5">
+
+    <div class="share-block">
+      <div class="share-block-head">
+        <h3 class="email-title">Save this path</h3>
+        <button class="save-path-btn" onclick="savePath()">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+          Save this path
+        </button>
       </div>
-      <button class="email-send-btn" onclick="composeEmail()">Send →</button>
+      <p class="share-desc">Keep these numbers so you can pick up where you left off or compare multiple paths.</p>
+      <div id="saved-paths-row" class="saved-paths-row"></div>
     </div>
-    <p class="email-note">Opens your email app with the summary pre-filled. Nothing is sent automatically.</p>
+
+    <div class="share-block">
+      <h3 class="email-title">Email this analysis</h3>
+      <p class="email-body">Send yourself or a collaborator a formatted summary of your inputs and results.</p>
+      <div class="email-row">
+        <div class="email-input-wrap" id="email-wrap">
+          <input type="email" id="emailRecipient" placeholder="recipient@example.com" oninput="clearEmailError()">
+        </div>
+        <button class="email-send-btn" onclick="composeEmail()">Send →</button>
+      </div>
+      <p class="email-note">Opens your email app with the summary pre-filled. Nothing is sent automatically.</p>
+    </div>
+
   </div>
 
   <div class="footer-note">
-    <span class="icon">💡</span>
-    <span>These figures show <strong>cash flow only</strong>. They don't capture equity appreciation in <span id="footer-from">your home</span>, principal paydown from tenant rent, or rental income tax deductions — all of which improve the true financial picture over time.</span>
+    These figures show <strong>cash flow only</strong>. They don't capture equity appreciation in <span id="footer-from">your home</span>, principal paydown from a tenant's rent, or rental income tax deductions. All of those improve the real picture over time.
   </div>
 
 </main>
 
 <script>
-  // ── Apartment colors ────────────────────────────────────────────────────────
+  // ── Apartment accent colors (brand palette) ──────────────────────────────────
   const APT_COLORS = [
-    '#3b82f6','#8b5cf6','#ec4899','#f97316','#14b8a6','#84cc16','#06b6d4','#a855f7',
+    '#7c6f64','#2e7a4d','#b23a2c','#c79431','#8c7f74','#5d534b','#a4572e','#221b17',
   ];
 
-  // ── State ──────────────────────────────────────────────────────────────────
+  // ── State ────────────────────────────────────────────────────────────────────
   let nextId = 1;
   let apartments = [];
 
@@ -440,15 +980,15 @@
     return { id: nextId++, name, rent };
   }
 
-  // ── Chart ──────────────────────────────────────────────────────────────────
+  // ── Chart ────────────────────────────────────────────────────────────────────
   const chart = new Chart(document.getElementById('chart').getContext('2d'), {
     type: 'bar',
     data: {
       labels: [],
       datasets: [
-        { label: 'Conservative (low rent, with PM)', data: [], backgroundColor: 'rgba(239,68,68,0.80)',  borderRadius: 4 },
-        { label: 'Balanced (mid rent, self-manage)',  data: [], backgroundColor: 'rgba(217,119,6,0.80)',  borderRadius: 4 },
-        { label: 'Best Case (high rent, self-manage)',data: [], backgroundColor: 'rgba(16,185,129,0.80)', borderRadius: 4 },
+        { label: 'Conservative (low rent, with PM)', data: [], backgroundColor: 'rgba(178,58,44,0.82)',  borderRadius: 5 },
+        { label: 'Balanced (mid rent, self-manage)',  data: [], backgroundColor: 'rgba(199,148,49,0.82)', borderRadius: 5 },
+        { label: 'Best Case (high rent, self-manage)',data: [], backgroundColor: 'rgba(46,122,77,0.82)',  borderRadius: 5 },
       ],
     },
     options: {
@@ -456,36 +996,47 @@
       maintainAspectRatio: false,
       interaction: { mode: 'index', intersect: false },
       plugins: {
-        legend: { position: 'bottom', labels: { padding: 22, font: { size: 12 }, usePointStyle: true, pointStyleWidth: 10 } },
+        legend: {
+          position: 'bottom',
+          labels: {
+            padding: 22,
+            font: { size: 12, family: "'Mulish', sans-serif" },
+            usePointStyle: true,
+            pointStyleWidth: 10,
+          },
+        },
         tooltip: { callbacks: { label: ctx => `  ${ctx.dataset.label}: ${fmtNet(ctx.raw)}` } },
       },
       scales: {
-        x: { grid: { display: false }, ticks: { font: { size: 12, weight: '600' } } },
+        x: {
+          grid: { display: false },
+          ticks: { font: { size: 12, family: "'Lora', serif", weight: '500' } },
+        },
         y: {
-          grid: { color: '#f1f5f9' },
+          grid: { color: 'rgba(34,27,23,0.06)' },
           ticks: {
             callback: v => v === 0 ? '$0' : (v > 0 ? `+$${(v/1000).toFixed(1)}k` : `-$${(Math.abs(v)/1000).toFixed(1)}k`),
-            font: { size: 12 },
+            font: { size: 11, family: "'Lora', serif" },
           },
         },
       },
     },
   });
 
-  // ── Helpers ────────────────────────────────────────────────────────────────
+  // ── Helpers ──────────────────────────────────────────────────────────────────
   const $$ = v => '$' + Math.round(v).toLocaleString();
   const val = id => parseFloat(document.getElementById(id).value) || 0;
   const strVal = id => document.getElementById(id).value.trim();
 
   function fmtNet(v) {
     const abs = Math.round(Math.abs(v)).toLocaleString();
-    return v >= 0 ? `+$${abs}` : `−$${abs}`;
+    return v >= 0 ? `+$${abs}` : `-$${abs}`;
   }
 
-  function netColor(v) {
-    if (v >= 0)      return 'green';
-    if (v >= -1500)  return 'amber';
-    return 'red';
+  function netClass(v) {
+    if (v > 0) return 'positive';
+    if (v < 0) return 'negative';
+    return 'neutral';
   }
 
   function shortFrom() {
@@ -494,7 +1045,7 @@
     return from.split(',')[0].trim();
   }
 
-  // ── Core math ──────────────────────────────────────────────────────────────
+  // ── Core math ────────────────────────────────────────────────────────────────
   function calcScenario({ slRent, newRent, usesPM, carrying, maintenance, vacancyMo, pmRate }) {
     const vacancy   = (slRent * vacancyMo) / 12;
     const mgmt      = usesPM ? slRent * (pmRate / 100) : 0;
@@ -512,11 +1063,11 @@
     };
   }
 
-  // ── Render apartment input rows ────────────────────────────────────────────
+  // ── Render apartment input rows ───────────────────────────────────────────────
   function renderApts() {
     const list = document.getElementById('apt-list');
     if (apartments.length === 0) {
-      list.innerHTML = '<p style="font-size:13px;color:var(--muted);padding:4px 0">No apartments yet — click Add below.</p>';
+      list.innerHTML = '<p style="font-size:13px;color:var(--text-muted);padding:8px 0 4px">No places yet. Add one below.</p>';
       return;
     }
     list.innerHTML = apartments.map((apt, i) => `
@@ -528,11 +1079,13 @@
         </div>
         <div class="input-wrap apt-rent-wrap">
           <span class="affix left">$</span>
-          <input type="number" value="${apt.rent}" min="0" step="50"
+          <input type="number" value="${apt.rent || ''}" min="0" step="50" placeholder="0"
                  oninput="updateApt(${apt.id},'rent',this.value)">
           <span class="affix right">/mo</span>
         </div>
-        <button class="icon-btn" onclick="removeApt(${apt.id})" title="Remove">×</button>
+        <button class="icon-btn" onclick="removeApt(${apt.id})" title="Remove" aria-label="Remove place">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
       </div>
     `).join('');
   }
@@ -560,7 +1113,7 @@
     recalc();
   }
 
-  // ── Render table ───────────────────────────────────────────────────────────
+  // ── Render table ──────────────────────────────────────────────────────────────
   function renderTable(results, rentLow, rentMid, rentHigh, pmRate) {
     const body = document.getElementById('table-body');
     const subC = document.getElementById('sub-c');
@@ -573,7 +1126,7 @@
     subX.textContent = `${sf} $${rentHigh.toLocaleString()} · self-manage`;
 
     if (results.length === 0) {
-      body.innerHTML = '<tr><td colspan="4" class="table-empty">Add an apartment above to see comparison</td></tr>';
+      body.innerHTML = '<tr><td colspan="4" class="table-empty">Add a place above to see your comparison.</td></tr>';
       return;
     }
 
@@ -583,12 +1136,10 @@
 
     body.innerHTML = results.map((r, i) => {
       const color = APT_COLORS[i % APT_COLORS.length];
-      const label = r.name || `Apartment ${i + 1}`;
-
+      const label = r.name || `Place ${i + 1}`;
       const cellC = netCell(r.conservative.net, r.conservative.net === bestC);
       const cellB = netCell(r.balanced.net,     r.balanced.net === bestB);
       const cellX = netCell(r.bestCase.net,     r.bestCase.net === bestX);
-
       return `
         <tr>
           <td class="name-td">
@@ -603,73 +1154,88 @@
   }
 
   function netCell(v, isBest) {
-    const cls = netColor(v);
-    const badge = isBest ? '<div class="best-badge">★ best</div>' : '';
-    return `<span class="net-val ${cls}">${fmtNet(v)}</span>${badge}`;
+    const cls     = netClass(v);
+    const display = v === 0 ? '·' : fmtNet(v);
+    const badge   = (isBest && v > 0) ? '<div class="best-badge">best</div>' : '';
+    return `<span class="net-val ${cls}">${display}</span>${badge}`;
   }
 
-  // ── Main recalculate ───────────────────────────────────────────────────────
+  // ── Main recalculate ──────────────────────────────────────────────────────────
   function recalc() {
-    const mortgage    = val('mortgage');
-    const propTax     = val('propTax');
-    const insurance   = val('insurance');
-    const homeValue   = val('homeValue');
-    const rentLow     = val('rentLow');
-    const rentHigh    = val('rentHigh');
-    const vacancyMo   = val('vacancyMo');
-    const maintPct    = val('maintPct');
-    const pmRate      = val('pmRate');
+    const mortgage  = val('mortgage');
+    const propTax   = val('propTax');
+    const insurance = val('insurance');
+    const homeValue = val('homeValue');
+    const rentLow   = val('rentLow');
+    const rentHigh  = val('rentHigh');
+    const vacancyMo = val('vacancyMo');
+    const maintPct  = val('maintPct');
+    const pmRate    = val('pmRate');
 
     const carrying    = mortgage + propTax + insurance;
     const maintenance = (homeValue * maintPct / 100) / 12;
     const rentMid     = (rentLow + rentHigh) / 2;
-
-    const base = { carrying, maintenance, vacancyMo, pmRate };
+    const base        = { carrying, maintenance, vacancyMo, pmRate };
 
     const results = apartments.map(apt => ({
-      apt,
-      name: apt.name,
+      apt, name: apt.name,
       ...calcApt(apt, base, rentLow, rentMid, rentHigh),
     }));
 
     renderTable(results, rentLow, rentMid, rentHigh, pmRate);
 
-    const labels = results.map((r, i) => r.name || `Apt ${i + 1}`);
-    chart.data.labels = labels;
-    chart.data.datasets[0].data = results.map(r => r.conservative.net);
-    chart.data.datasets[1].data = results.map(r => r.balanced.net);
-    chart.data.datasets[2].data = results.map(r => r.bestCase.net);
+    chart.data.labels            = results.map((r, i) => r.name || `Place ${i + 1}`);
+    chart.data.datasets[0].data  = results.map(r => r.conservative.net);
+    chart.data.datasets[1].data  = results.map(r => r.balanced.net);
+    chart.data.datasets[2].data  = results.map(r => r.bestCase.net);
     chart.update();
   }
 
-  // ── Dynamic labels ─────────────────────────────────────────────────────────
+  // ── Dynamic labels ────────────────────────────────────────────────────────────
   function updateLabels() {
-    const from = strVal('fromLocation') || 'Your Home';
-    const to   = strVal('toLocation')   || 'New Location';
+    const from = strVal('fromLocation') || 'Your home';
+    const to   = strVal('toLocation')   || 'new location';
 
     document.getElementById('pill-from').textContent      = from;
     document.getElementById('pill-to').textContent        = to;
-    document.getElementById('label-carrying').textContent = `🏡 ${from} — Carrying Costs`;
-    document.getElementById('label-income').textContent   = `💰 ${from} — Rental Income Range`;
+    document.getElementById('label-carrying').textContent = `${from}'s carrying costs`;
+    document.getElementById('label-income').textContent   = `${from}'s rental income range`;
     document.getElementById('footer-from').textContent    = from;
 
     recalc();
   }
 
-  // ── Onboarding ─────────────────────────────────────────────────────────────
+  // ── Onboarding ────────────────────────────────────────────────────────────────
   const VISITED_KEY = 'housing_visited';
 
-  function isFirstVisit() {
-    try { return !localStorage.getItem(VISITED_KEY); }
+  function onboardingShouldCollapse() {
+    try { return localStorage.getItem(VISITED_KEY) === '1'; }
     catch { return false; }
   }
 
-  function dismissOnboarding() {
-    document.getElementById('onboarding').style.display = 'none';
-    try { localStorage.setItem(VISITED_KEY, '1'); } catch {}
+  function setOnboardingCollapsed(collapsed) {
+    const card   = document.getElementById('onboarding');
+    const toggle = card.querySelector('.onboarding-toggle');
+    if (collapsed) {
+      card.classList.add('collapsed');
+      toggle.setAttribute('aria-expanded', 'false');
+    } else {
+      card.classList.remove('collapsed');
+      toggle.setAttribute('aria-expanded', 'true');
+    }
+    try { localStorage.setItem(VISITED_KEY, collapsed ? '1' : '0'); } catch {}
   }
 
-  // ── Saved paths (localStorage) ─────────────────────────────────────────────
+  function toggleOnboarding() {
+    const card = document.getElementById('onboarding');
+    setOnboardingCollapsed(!card.classList.contains('collapsed'));
+  }
+
+  function dismissOnboarding() {
+    setOnboardingCollapsed(true);
+  }
+
+  // ── Saved paths (localStorage) ────────────────────────────────────────────────
   const STORAGE_KEY = 'housing_saved_paths';
 
   function loadPaths() {
@@ -742,7 +1308,7 @@
 
   function renderSavedPaths() {
     const paths = loadPaths();
-    const row = document.getElementById('saved-paths-row');
+    const row   = document.getElementById('saved-paths-row');
     if (paths.length === 0) {
       row.innerHTML = '<span class="paths-empty">No saved paths yet</span>';
       return;
@@ -755,7 +1321,7 @@
     `).join('');
   }
 
-  // ── Email results ──────────────────────────────────────────────────────────
+  // ── Email results ─────────────────────────────────────────────────────────────
   function clearEmailError() {
     document.getElementById('email-wrap').classList.remove('error');
   }
@@ -786,13 +1352,12 @@
     const rentMid     = (rentLow + rentHigh) / 2;
     const base        = { carrying, maintenance, vacancyMo, pmRate };
 
-    const fmt    = v => Math.round(v).toLocaleString();
-    const fmtE   = v => v >= 0 ? `+$${fmt(v)}` : `-$${fmt(Math.abs(v))}`;
+    const fmt  = v => Math.round(v).toLocaleString();
+    const fmtE = v => v >= 0 ? `+$${fmt(v)}` : `-$${fmt(Math.abs(v))}`;
 
     let b = '';
     b += `HOUSING ANALYSIS: ${from} -> ${to}\r\n`;
     b += `${'='.repeat(50)}\r\n\r\n`;
-
     b += `HOME: ${from}\r\n`;
     b += `  Carrying costs:    $${fmt(carrying)}/mo\r\n`;
     b += `    Mortgage:        $${fmt(mortgage)}/mo\r\n`;
@@ -800,12 +1365,11 @@
     b += `    Insurance:       $${fmt(insurance)}/mo\r\n`;
     b += `  Home value:        $${fmt(homeValue)}\r\n`;
     b += `  Rental income:     $${fmt(rentLow)} - $${fmt(rentHigh)}/mo\r\n\r\n`;
-
     b += `LANDLORD ASSUMPTIONS\r\n`;
     b += `  Vacancy: ${vacancyMo} mo/yr | Maintenance: ${maintPct}%/yr | PM fee: ${pmRate}%\r\n\r\n`;
 
     if (apartments.length === 0) {
-      b += `No apartments added to comparison.\r\n`;
+      b += `No places added to comparison.\r\n`;
     } else {
       b += `MONTHLY CASH FLOW (moving to ${to})\r\n`;
       b += `${'─'.repeat(50)}\r\n`;
@@ -820,7 +1384,7 @@
       const bestX = Math.max(...results.map(r => r.bestCase.net));
 
       results.forEach((r, i) => {
-        const label = r.name || `Apartment ${i + 1}`;
+        const label = r.name || `Place ${i + 1}`;
         b += `\r\n${label} ($${fmt(r.apt.rent)}/mo)\r\n`;
         b += `  Conservative:  ${fmtE(r.conservative.net)}${r.conservative.net === bestC ? '  <- best' : ''}\r\n`;
         b += `  Balanced:      ${fmtE(r.balanced.net)}${r.balanced.net === bestB ? '  <- best' : ''}\r\n`;
@@ -837,22 +1401,18 @@
     b += `\r\n${'='.repeat(50)}\r\n`;
     b += `Note: Cash flow only. Equity appreciation, principal paydown,\r\n`;
     b += `and rental tax deductions are not reflected here.\r\n\r\n`;
-    b += `Generated by the Housing Calculator\r\n`;
-    b += `https://housingcalc.netlify.app/`;
+    b += `Generated by the Housing Calculator\r\nhttps://housingcalc.netlify.app/`;
 
     const subject = `Housing Analysis: ${from} -> ${to}`;
     window.location.href = `mailto:${encodeURIComponent(recipient)}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(b)}`;
   }
 
-  // ── Boot ───────────────────────────────────────────────────────────────────
+  // ── Boot ──────────────────────────────────────────────────────────────────────
   apartments = [];
   renderApts();
   renderSavedPaths();
   updateLabels();
-
-  if (isFirstVisit()) {
-    document.getElementById('onboarding').style.display = 'block';
-  }
+  setOnboardingCollapsed(onboardingShouldCollapse());
 </script>
 </body>
 </html>
